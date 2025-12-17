@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_OPTIONS=--max-old-space-size=4096&& next dev --turbo",
-    "build": "set NODE_OPTIONS=--max-old-space-size=4096&& next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dev:no-turbo": "next dev",
-    "clean": "rmdir /s /q .next 2>nul && rmdir /s /q node_modules 2>nul",
-    "reinstall": "npm cache clean --force && del package-lock.json 2>nul && npm install",
-    "dev:simple": "next dev",
-    "build:simple": "next build"
+    "clean": "rm -rf .next && rm -rf node_modules",
+    "clean:windows": "rmdir /s /q .next 2>nul && rmdir /s /q node_modules 2>nul",
+    "reinstall": "npm cache clean --force && rm -f package-lock.json && npm install",
+    "reinstall:windows": "npm cache clean --force && del package-lock.json 2>nul && npm install"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.2",
