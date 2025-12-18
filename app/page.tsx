@@ -321,11 +321,13 @@ export default async function Home() {
         </div>
       </section>
       
+      {/* FIXED: Digital Tools Section with mobile responsiveness */}
       <section className="py-16 sm:py-24 bg-white dark:bg-background-dark">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-8 md:flex-row md:items-center">
             <div className="md:w-1/2">
-              <div className="flex flex-col items-start gap-4 text-left">
+              {/* FIX 1: Button/text alignment - centered on mobile, left on desktop */}
+              <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                 <h2 className="text-3xl font-bold leading-tight tracking-tight text-text-light dark:text-text-dark sm:text-4xl">Digital Tools for the Modern Professional</h2>
                 <p className="max-w-2xl text-lg text-text-muted-light dark:text-text-muted-dark">Equip yourself with the knowledge and tools to thrive in the current digital economy. From expert resources to productivity software, we provide curated resources to enhance your professional toolkit.</p>
                 <Link 
@@ -336,7 +338,9 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-            <div className="grid w-full grid-cols-2 gap-6 md:w-1/2">
+            
+            {/* FIX 2: Grid layout - 1 column on mobile, 2 columns on small screens and up */}
+            <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-6 md:w-1/2">
               <div className="flex flex-col items-start gap-3 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 h-full">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <span className="material-symbols-outlined text-2xl">account_balance</span>

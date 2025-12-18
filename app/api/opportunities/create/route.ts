@@ -1039,19 +1039,38 @@ export async function POST(request: NextRequest) {
       } : undefined
     });
 
-    // Save to database
+    // Save to database - SIMPLIFIED VERSION
     const { data: savedOpp, error: dbError } = await supabaseAdmin
       .from('opportunities')
-      .insert([dbData])
+      .insert(dbData)  // Remove the array brackets
       .select()
       .single();
 
     if (dbError) {
-      console.error('❌ Database error:', dbError);
-      throw new Error(`Database error: ${dbError.message}`);
+      console.error('❌ Database insert error:', {
+        message: dbError.message,
+        details: dbError.details,
+        hint: dbError.hint,
+        code: dbError.code
+      });
+      
+      // Check for specific error types
+      if (dbError.code === 'PGRST100') {
+        throw new Error('SQL syntax error in query. Check for malformed select statements.');
+      } else if (dbError.code === '42P01') {
+        throw new Error('Table not found. Check table name and permissions.');
+      } else {
+        throw new Error(`Database insert failed: ${dbError.message}`);
+      }
     }
 
     console.log(`✅ Created ${opportunityType} with ID:`, savedOpp?.id);
+    console.log('📊 Saved data:', {
+      id: savedOpp?.id,
+      title: savedOpp?.title,
+      type: savedOpp?.type,
+      page_slug: savedOpp?.page_slug
+    });
 
     // Revalidate paths immediately after creation
     try {

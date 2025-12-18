@@ -1,6 +1,28 @@
+"use client";
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Close menu when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMenuOpen && window.innerWidth < 768) {
+        const menu = document.querySelector('.mobile-menu');
+        const hamburger = document.querySelector('.hamburger-button');
+        if (menu && !menu.contains(event.target as Node) && 
+            hamburger && !hamburger.contains(event.target as Node)) {
+          setIsMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap px-4 sm:px-6 lg:px-8 py-3">
@@ -16,22 +38,70 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Navigation - Now on the very right side */}
-        <nav className="flex items-center justify-end gap-6">
-          <Link className="hidden md:inline text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/jobs">
+        {/* Hamburger Menu Button for Mobile */}
+        <button
+          className="hamburger-button md:hidden flex items-center justify-center w-10 h-10 text-gray-300 hover:text-white transition-colors"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          {isMenuOpen ? (
+            <span className="material-symbols-outlined text-2xl">close</span>
+          ) : (
+            <span className="material-symbols-outlined text-2xl">menu</span>
+          )}
+        </button>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center justify-end gap-6">
+          <Link className="text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/jobs">
             Remote Work
           </Link>
-          <Link className="hidden md:inline text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/research">
+          <Link className="text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/research">
             Surveys
           </Link>
-          <Link className="hidden md:inline text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/tools">
+          <Link className="text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/tools">
             Digital Tools
           </Link>
-          {/* NEW: Vetting Process Link */}
-          <Link className="hidden md:inline text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/vetting-process">
+          <Link className="text-base font-medium leading-normal text-gray-300 hover:text-white transition-colors" href="/vetting-process">
             Vetting Process
           </Link>
         </nav>
+
+        {/* Mobile Navigation Menu */}
+        {isMenuOpen && (
+          <div className="mobile-menu absolute top-full left-0 right-0 md:hidden bg-black border-b border-gray-800 shadow-lg">
+            <div className="flex flex-col py-4 px-6">
+              <Link 
+                className="py-3 text-base font-medium text-gray-300 hover:text-white transition-colors border-b border-gray-800"
+                href="/jobs"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Remote Work
+              </Link>
+              <Link 
+                className="py-3 text-base font-medium text-gray-300 hover:text-white transition-colors border-b border-gray-800"
+                href="/research"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Surveys
+              </Link>
+              <Link 
+                className="py-3 text-base font-medium text-gray-300 hover:text-white transition-colors border-b border-gray-800"
+                href="/tools"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Digital Tools
+              </Link>
+              <Link 
+                className="py-3 text-base font-medium text-gray-300 hover:text-white transition-colors"
+                href="/vetting-process"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Vetting Process
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

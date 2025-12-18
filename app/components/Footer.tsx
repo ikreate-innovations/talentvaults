@@ -1,4 +1,3 @@
-// components/Footer.tsx
 import Link from 'next/link';
 
 export default function Footer() {
@@ -52,9 +51,9 @@ export default function Footer() {
             </div>
           </div>
           
-          {/* Legal Links - Right Side */}
+          {/* Legal Links - Right Side (Fixed with responsive alignment) */}
           <div className="flex flex-col lg:col-span-2">
-            <div className="w-full max-w-[200px] ml-auto">
+            <div className="w-full max-w-[200px] lg:ml-auto">
               <h3 className="text-white font-semibold text-base mb-4 pb-1 border-b border-gray-800 w-fit">
                 Legal
               </h3>
