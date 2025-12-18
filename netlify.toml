@@ -6,5 +6,15 @@
   NODE_VERSION = "18"
   NODE_OPTIONS = "--max-old-space-size=4096"
 
+# Next.js plugin for optimized builds
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Edge Functions for global caching
+[[edge_functions]]
+  path = "/*"
+  function = "cache-homepage"
+  
+# Optional: Configure Edge Functions region
+# [edge_functions]
+#   region = "us-east-1"  # Default, choose closest to your users
