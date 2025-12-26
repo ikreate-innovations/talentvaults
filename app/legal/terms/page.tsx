@@ -1,4 +1,3 @@
-// app/legal/terms/page.tsx
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -25,8 +24,7 @@ export default function TermsOfServicePage() {
             <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#third-party">7. Third-Party Links</a>
             <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#ip">8. Intellectual Property</a>
             <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#data">9. Data Protection</a>
-            <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#odr">10. Online Dispute Resolution</a>
-            <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#final">11. Final Provisions</a>
+            <a className="rounded-md px-3 py-2 text-sm font-medium text-text-light dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#final">10. Final Provisions</a>
           </nav>
         </aside>
 
@@ -37,7 +35,7 @@ export default function TermsOfServicePage() {
           <div className="pb-8 border-b border-border-light dark:border-border-dark">
             <div className="flex flex-col gap-2">
               <h1 className="text-text-light dark:text-white text-4xl font-black tracking-tighter">Terms of Service</h1>
-              <p className="text-text-muted-light dark:text-gray-400 text-base font-normal">Last Updated: December 15, 2025</p>
+              <p className="text-text-muted-light dark:text-gray-400 text-base font-normal">Last Updated: December 26, 2025</p>
             </div>
           </div>
 
@@ -213,41 +211,26 @@ export default function TermsOfServicePage() {
               </p>
             </section>
             
-            {/* 10. Online Dispute Resolution */}
-            <section id="odr" className="scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight text-text-light dark:text-white">10. Online Dispute Resolution</h2>
-              
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.1. ODR Platform</h3>
-              <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
-                The European Commission provides a platform for Online Dispute Resolution (ODR): <a href="https://ec.europa.eu/consumers/odr/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.
-              </p>
-              
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.2. No Arbitration Obligation</h3>
-              <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
-                We are neither willing nor obliged to participate in dispute settlement proceedings before a consumer arbitration board.
-              </p>
-            </section>
-            
-            {/* 11. Final Provisions */}
+            {/* 10. Final Provisions */}
             <section id="final" className="scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight text-text-light dark:text-white">11. Final Provisions</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-text-light dark:text-white">10. Final Provisions</h2>
               
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">11.1. Governing Law</h3>
+              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.1. Governing Law</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
                 These Terms shall be governed by the laws of the Republic of Estonia, excluding the UN Convention on Contracts for the International Sale of Goods (CISG).
               </p>
               
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">11.2. Consumer Protection Exception</h3>
+              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.2. Consumer Protection Exception</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
                 If you are a consumer within the EU, mandatory statutory consumer protection regulations of the country in which you habitually reside (e.g., Germany) remain unaffected by this choice of law.
               </p>
               
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">11.3. Jurisdiction</h3>
+              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.3. Jurisdiction</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
                 If the user is a merchant, a legal entity under public law, or has no general place of jurisdiction in the EU, the exclusive place of jurisdiction for all disputes is Tallinn, Estonia.
               </p>
               
-              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">11.4. Severability</h3>
+              <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">10.4. Severability</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
                 Should individual provisions of these Terms be or become invalid, this shall not affect the validity of the remaining provisions.
               </p>
