@@ -1,6 +1,8 @@
+// app/tools/page.tsx - COMPLETE UPDATED VERSION
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
+import Icon from '@/app/components/Icon';
 
 // =============================
 // UPDATED: More Compelling Metadata
@@ -82,9 +84,10 @@ export default async function DigitalToolsPage() {
                   >
                     {/* Icon */}
                     <div className={`flex items-center justify-center size-16 rounded-lg ${tool.bg_color} ${tool.icon_color} flex-shrink-0`}>
-                      <span className="material-symbols-outlined" style={{ fontSize: '40px' }}>
-                        {tool.icon || 'settings'}
-                      </span>
+                      <Icon 
+                        name={tool.icon || 'settings'} 
+                        className="h-10 w-10" 
+                      />
                     </div>
 
                     {/* Text Content */}
@@ -110,7 +113,7 @@ export default async function DigitalToolsPage() {
             ) : (
               <div className="text-center py-16 bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark">
                 <div className="mx-auto w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
-                  <span className="material-symbols-outlined text-3xl">build</span>
+                  <Icon name="build" className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-bold text-text-light dark:text-white mb-2">No Tools Available Yet</h3>
                 <p className="text-text-muted-light dark:text-text-muted-dark max-w-md mx-auto">

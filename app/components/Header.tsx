@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Icon from '@/app/components/Icon';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,9 +46,9 @@ export default function Header() {
           aria-label="Toggle navigation menu"
         >
           {isMenuOpen ? (
-            <span className="material-symbols-outlined text-2xl">close</span>
+            <Icon name="close" className="text-2xl text-current" />
           ) : (
-            <span className="material-symbols-outlined text-2xl">menu</span>
+            <Icon name="menu" className="text-2xl text-current" />
           )}
         </button>
 

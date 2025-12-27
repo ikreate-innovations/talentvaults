@@ -5,6 +5,7 @@ import { supabase } from '@/lib/db/supabase';
 import { notFound } from 'next/navigation';
 import { unstable_cache } from 'next/cache';
 import ResearchSchema from '@/app/components/seo/ResearchSchema';
+import Icon from '@/app/components/Icon';
 
 // Updated interface with structured fields
 interface Opportunity {
@@ -222,7 +223,7 @@ function formatDescription(text: string) {
         <ul key={index} className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-gray-300 mb-4">
           {bulletPoints.map((bullet, idx) => (
             <li key={idx} className="flex items-start">
-              <span className="material-symbols-outlined text-secondary mr-2 text-sm mt-0.5">check_circle</span>
+              <Icon name="check_circle" size="sm" className="text-secondary mr-2 mt-0.5 flex-shrink-0" />
               <span>{bullet.replace(/^- /, '').trim()}</span>
             </li>
           ))}
@@ -255,7 +256,7 @@ function getSafeUrl(link: string | null, websiteName: string): string {
 }
 
 // =============================
-// Main Component - UPDATED with ResearchSchema
+// Main Component - UPDATED with ResearchSchema and Lucide Icons
 // =============================
 export default async function ResearchDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -279,7 +280,7 @@ export default async function ResearchDetailPage({ params }: { params: Promise<{
         
         {/* Header and Back Link */}
         <Link href="/research" className="flex items-center text-primary mb-6 text-sm font-medium">
-          <span className="material-symbols-outlined text-lg mr-1">arrow_back</span>
+          <Icon name="arrow_back" size="lg" className="mr-1" />
           <span>Back to All Surveys</span>
         </Link>
         
@@ -326,7 +327,7 @@ export default async function ResearchDetailPage({ params }: { params: Promise<{
             <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-gray-300">
               {opportunity.eligibility.map((req: string, index: number) => (
                 <li key={index} className="flex items-start">
-                  <span className="material-symbols-outlined text-secondary mr-2 text-sm mt-0.5">check_circle</span>
+                  <Icon name="check_circle" size="sm" className="text-secondary mr-2 mt-0.5 flex-shrink-0" />
                   <span>{req}</span>
                 </li>
               ))}
@@ -340,9 +341,9 @@ export default async function ResearchDetailPage({ params }: { params: Promise<{
             href={safeLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full text-center py-3 rounded-xl font-bold text-lg text-white bg-primary hover:bg-primary/90 transition shadow-md"
+            className="flex items-center justify-center w-full text-center py-3 rounded-xl font-bold text-lg text-white bg-primary hover:bg-primary/90 transition shadow-md"
           >
-            <span className="material-symbols-outlined align-middle mr-2">arrow_forward</span>
+            <Icon name="arrow_forward" className="align-middle mr-2" />
             Participate Now
           </a>
           

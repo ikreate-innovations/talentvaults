@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Icon from '@/app/components/Icon';
 
 export default function Footer() {
   return (
@@ -43,7 +44,7 @@ export default function Footer() {
                     href="mailto:iknnovating@gmail.com"
                     className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 group text-sm"
                   >
-                    <span className="material-symbols-outlined text-sm">mail</span>
+                    <Icon name="mail" className="text-sm" />
                     <span className="font-medium">iknnovating@gmail.com</span>
                   </a>
                 </div>

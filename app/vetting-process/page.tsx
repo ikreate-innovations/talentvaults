@@ -1,5 +1,7 @@
+// app/vetting-process/page.tsx - COMPLETE UPDATED VERSION
 import { Metadata } from 'next';
 import Script from 'next/script';
+import Icon from '@/app/components/Icon';
 
 export const metadata: Metadata = {
   title: 'Our Vetting Process: How TalentVaults Filters High-Quality Opportunities',
@@ -145,7 +147,7 @@ export default function VettingProcessPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <span className="material-symbols-outlined text-base">verified</span>
+              <Icon name="verified" size="md" />
               Our Quality Promise
             </div>
             
@@ -204,7 +206,7 @@ export default function VettingProcessPage() {
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
                         <div className="flex items-center justify-center size-12 rounded-xl bg-primary/10 text-primary">
-                          <span className="material-symbols-outlined text-3xl">{step.icon}</span>
+                          <Icon name={step.icon} size="3xl" />
                         </div>
                       </div>
                       
@@ -226,7 +228,7 @@ export default function VettingProcessPage() {
           {/* Process Outcome */}
           <div className="mt-20 text-center">
             <div className="inline-flex items-center gap-3 bg-primary/5 dark:bg-primary/10 px-6 py-4 rounded-2xl border border-primary/20">
-              <span className="material-symbols-outlined text-primary text-2xl">auto_awesome</span>
+              <Icon name="auto_awesome" size="2xl" className="text-primary" />
               <div>
                 <p className="text-lg font-semibold text-text-light dark:text-white">
                   The result? A curated collection of opportunities worthy of your expertise
@@ -254,7 +256,7 @@ export default function VettingProcessPage() {
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-8 border border-green-200 dark:border-green-800/50">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center size-12 rounded-lg bg-green-100 dark:bg-green-800/50 text-green-600 dark:text-green-400">
-                  <span className="material-symbols-outlined text-2xl">check_circle</span>
+                  <Icon name="check_circle" size="2xl" />
                 </div>
                 <h3 className="text-2xl font-bold text-green-800 dark:text-green-300">✓ Included</h3>
               </div>
@@ -262,7 +264,7 @@ export default function VettingProcessPage() {
               <ul className="space-y-4">
                 {researchIncluded.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="material-symbols-outlined text-green-500 dark:text-green-400 mt-0.5">check</span>
+                    <Icon name="check" size="sm" className="text-green-500 dark:text-green-400 mt-0.5" />
                     <span className="text-green-800 dark:text-green-200">{item}</span>
                   </li>
                 ))}
@@ -273,7 +275,7 @@ export default function VettingProcessPage() {
             <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 rounded-2xl p-8 border border-red-200 dark:border-red-800/50">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center size-12 rounded-lg bg-red-100 dark:bg-red-800/50 text-red-600 dark:text-red-400">
-                  <span className="material-symbols-outlined text-2xl">cancel</span>
+                  <Icon name="cancel" size="2xl" />
                 </div>
                 <h3 className="text-2xl font-bold text-red-800 dark:text-red-300">✗ Excluded</h3>
               </div>
@@ -281,7 +283,7 @@ export default function VettingProcessPage() {
               <ul className="space-y-4">
                 {researchExcluded.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="material-symbols-outlined text-red-500 dark:text-red-400 mt-0.5">close</span>
+                    <Icon name="close" size="sm" className="text-red-500 dark:text-red-400 mt-0.5" />
                     <span className="text-red-800 dark:text-red-200">{item}</span>
                   </li>
                 ))}
@@ -294,7 +296,7 @@ export default function VettingProcessPage() {
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="flex-shrink-0">
                 <div className="flex items-center justify-center size-16 rounded-xl bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined text-3xl">shield</span>
+                  <Icon name="shield" size="3xl" />
                 </div>
               </div>
               <div>
@@ -326,7 +328,7 @@ export default function VettingProcessPage() {
               href="/jobs"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl"
             >
-              <span className="material-symbols-outlined">work</span>
+              <Icon name="work" />
               Browse Vetted Opportunities
             </a>
             
@@ -334,7 +336,7 @@ export default function VettingProcessPage() {
               href="/research"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-card-dark text-text-light dark:text-white font-bold rounded-xl border border-border-light dark:border-border-dark hover:border-primary transition-colors shadow-lg hover:shadow-xl"
             >
-              <span className="material-symbols-outlined">search</span>
+              <Icon name="search" />
               View Research Studies
             </a>
           </div>

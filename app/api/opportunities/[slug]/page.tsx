@@ -1,6 +1,8 @@
+// app/api/opportunities/[slug]/page.tsx - COMPLETE UPDATED VERSION
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
 import { notFound } from 'next/navigation';
+import Icon from '@/app/components/Icon';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,7 +45,7 @@ export default async function OpportunityPage({ params }: Props) {
         href="/opportunities"
         className="flex items-center text-primary mb-6 text-sm font-medium hover:underline"
       >
-        <span className="material-symbols-outlined text-lg mr-1">arrow_back</span>
+        <Icon name="arrow_back" size="lg" className="mr-1" />
         Back to All Opportunities
       </Link>
 

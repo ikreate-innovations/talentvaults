@@ -5,6 +5,7 @@ import { supabase } from '@/lib/db/supabase';
 import { notFound } from 'next/navigation';
 import { unstable_cache } from 'next/cache';
 import JobSchema from '@/app/components/seo/JobSchema';
+import Icon from '@/app/components/Icon';
 
 // Updated interface with structured fields
 interface JobOpportunity {
@@ -246,7 +247,7 @@ function renderJobDescription(text: string) {
 }
 
 // =============================
-// Main Component - UPDATED with JobSchema
+// Main Component - UPDATED with JobSchema and Lucide Icons
 // =============================
 export default async function JobDetailPage({ 
   params 
@@ -277,7 +278,7 @@ export default async function JobDetailPage({
             href="/jobs" 
             className="flex items-center text-primary mb-4 text-sm font-medium hover:text-primary/80 transition"
           >
-            <span className="material-symbols-outlined text-lg mr-1">arrow_back</span>
+            <Icon name="arrow_back" size="lg" className="mr-1" />
             <span>Back to All Jobs</span>
           </Link>
 
@@ -312,7 +313,7 @@ export default async function JobDetailPage({
           <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg p-6 border border-border-light dark:border-border-dark">
             <h3 className="text-xl font-bold mb-4 text-primary">Compliance Review</h3>
             <div className="flex items-center gap-2 mb-3 text-secondary">
-              <span className="material-symbols-outlined text-lg">verified</span>
+              <Icon name="verified" size="lg" />
               <p className="text-sm font-semibold">TalentVaults Vetted</p>
             </div>
             <p className="text-sm text-text-light dark:text-gray-300">

@@ -5,6 +5,7 @@ import { supabase } from '@/lib/db/supabase';
 import { notFound } from 'next/navigation';
 import { unstable_cache } from 'next/cache';
 import ToolSchema from '@/app/components/seo/ToolSchema';
+import Icon from '@/app/components/Icon';
 
 // Updated interface with structured fields
 interface ToolOpportunity {
@@ -214,9 +215,11 @@ function formatToolDescription(text: string) {
                 
                 return (
                   <li key={idx} className="flex items-start">
-                    <span className="material-symbols-outlined text-secondary mr-3 text-sm mt-0.5 flex-shrink-0">
-                      check_circle
-                    </span>
+                    <Icon 
+                      name="check_circle" 
+                      size="sm" 
+                      className="text-secondary mr-3 mt-0.5 flex-shrink-0" 
+                    />
                     <span className="text-text-light dark:text-gray-300">
                       <span className="font-bold">{cleanedFeatureName}:</span>
                       <span className="ml-1">{featureDesc}</span>
@@ -229,9 +232,11 @@ function formatToolDescription(text: string) {
               const cleanedContent = content.replace(/\*\*/g, '').trim();
               return (
                 <li key={idx} className="flex items-start">
-                  <span className="material-symbols-outlined text-secondary mr-3 text-sm mt-0.5 flex-shrink-0">
-                    check_circle
-                  </span>
+                  <Icon 
+                    name="check_circle" 
+                    size="sm" 
+                    className="text-secondary mr-3 mt-0.5 flex-shrink-0" 
+                  />
                   <span className="text-text-light dark:text-gray-300">{cleanedContent}</span>
                 </li>
               );
@@ -261,7 +266,7 @@ function getSafeUrl(link: string | null, websiteName: string): string {
 }
 
 // =============================
-// Main Component - UPDATED with ToolSchema
+// Main Component - UPDATED with ToolSchema and Lucide Icons
 // =============================
 export default async function ToolDetailPage({ 
   params 
@@ -293,7 +298,7 @@ export default async function ToolDetailPage({
             href="/tools" 
             className="flex items-center text-primary mb-6 text-sm font-medium hover:text-primary/80 transition"
           >
-            <span className="material-symbols-outlined text-lg mr-1">arrow_back</span>
+            <Icon name="arrow_back" size="lg" className="mr-1" />
             <span>Back to All Tools</span>
           </Link>
 
@@ -301,9 +306,10 @@ export default async function ToolDetailPage({
           <div className="flex flex-col sm:flex-row items-center gap-8 mb-12">
             {/* Icon */}
             <div className={`flex items-center justify-center size-24 rounded-2xl ${tool.bg_color} ${tool.icon_color}`}>
-              <span className="material-symbols-outlined" style={{ fontSize: '60px' }}>
-                {tool.icon || 'settings'}
-              </span>
+              <Icon 
+                name={tool.icon || 'settings'} 
+                className="h-15 w-15" 
+              />
             </div>
 
             {/* Title and Short Description */}

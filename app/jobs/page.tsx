@@ -1,7 +1,9 @@
+// app/jobs/page.tsx - COMPLETE UPDATED VERSION
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
 import { unstable_cache } from 'next/cache';
+import Icon from '@/app/components/Icon';
 
 // =============================
 // UPDATED: More Compelling Metadata
@@ -120,7 +122,7 @@ export default async function JobsIndexPage() {
       ) : (
         <div className="text-center py-16 bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark">
           <div className="mx-auto w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-3xl">work</span>
+            <Icon name="work" size="3xl" />
           </div>
           <h3 className="text-xl font-bold text-text-light dark:text-white mb-2">No Jobs Available Yet</h3>
           <p className="text-text-muted-light dark:text-text-muted-dark max-w-md mx-auto">

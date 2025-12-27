@@ -1,13 +1,8 @@
+// app/layout.tsx - UPDATED (Remove Inter font for GDPR)
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'TalentVaults - Curated Remote Opportunities for Professionals',
@@ -22,16 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <head>
-        {/* Material Symbols Font - WE'LL FIX THIS LATER */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        />
-        {/* Preconnect for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* GDPR compliant - no external fonts */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`${inter.className} bg-background-light text-text-light antialiased`}>
+      <body className="bg-background-light text-text-light antialiased">
         {/* LOCALSTORAGE CLEANUP SCRIPT - SILENT VERSION */}
         <script
           dangerouslySetInnerHTML={{

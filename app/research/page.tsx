@@ -1,6 +1,8 @@
+// app/research/page.tsx - COMPLETE UPDATED VERSION
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
+import Icon from '@/app/components/Icon';
 
 // =============================
 // UPDATED: More Compelling Metadata
@@ -81,13 +83,13 @@ export default async function ResearchIndexPage() {
                 
                 <div className="space-y-1 text-sm text-text-muted-light dark:text-text-muted-dark mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base text-primary flex-shrink-0">paid</span>
+                    <Icon name="paid" size="md" className="text-primary flex-shrink-0" />
                     <span className="truncate">
                       Reward: <span className="font-semibold text-text-light dark:text-white">{survey.reward || 'Varies'}</span>
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base text-primary flex-shrink-0">schedule</span>
+                    <Icon name="schedule" size="md" className="text-primary flex-shrink-0" />
                     <span className="truncate">Est. Time: {survey.time_estimate || 'Varies'}</span>
                   </div>
                 </div>
@@ -106,7 +108,7 @@ export default async function ResearchIndexPage() {
         ) : (
           <div className="text-center py-16 bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark">
             <div className="mx-auto w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
-              <span className="material-symbols-outlined text-3xl">search</span>
+              <Icon name="search" size="3xl" />
             </div>
             <h3 className="text-xl font-bold text-text-light dark:text-white mb-2">No Surveys Available Yet</h3>
             <p className="text-text-muted-light dark:text-text-muted-dark max-w-md mx-auto">

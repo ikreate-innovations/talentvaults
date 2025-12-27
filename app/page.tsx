@@ -1,11 +1,10 @@
+// app/page.tsx - UPDATED WITH LUCIDE ICONS
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
 import { createWebhookCache, CACHE_TAGS } from '@/lib/cache';
 import { Metadata } from 'next';
-
-// >>>>>>> REMOVED: export const dynamic = 'force-dynamic';
-// >>>>>>> REMOVED: export const revalidate = 0;
+import Icon from '@/app/components/Icon';
 
 // =============================
 // OPTIMIZED METADATA: BRUTAL SEO FIXES APPLIED
@@ -165,7 +164,7 @@ export default async function Home() {
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="flex flex-col items-start text-left gap-4 rounded-xl bg-card-light dark:bg-background-dark p-8 border border-border-light dark:border-border-dark">
               <div className="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary">
-                <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>verified_user</span>
+                <Icon name="verified_user" size="2xl" />
               </div>
               <div className="flex flex-col gap-1">
                 <h3 className="text-lg font-bold leading-tight text-text-light dark:text-text-dark">Rigorous Vetting</h3>
@@ -174,7 +173,7 @@ export default async function Home() {
             </div>
             <div className="flex flex-col items-start text-left gap-4 rounded-xl bg-card-light dark:bg-background-dark p-8 border border-border-light dark:border-border-dark">
               <div className="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary">
-                <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>hub</span>
+                <Icon name="hub" size="2xl" />
               </div>
               <div className="flex flex-col gap-1">
                 <h3 className="text-lg font-bold leading-tight text-text-light dark:text-text-dark">Professional Focus</h3>
@@ -219,15 +218,15 @@ export default async function Home() {
 
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <span className="material-symbols-outlined !text-base text-secondary">check_circle</span>
+                        <Icon name="check_circle" size="md" className="text-secondary" />
                         <span>Vetting Scorecard: {job.vetting_score || 90}/100</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <span className="material-symbols-outlined !text-base text-secondary">check_circle</span>
+                        <Icon name="check_circle" size="md" className="text-secondary" />
                         <span>Hourly Rate: {job.hourly_rate ? 'Top Tier' : 'Competitive'}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <span className="material-symbols-outlined !text-base text-secondary">check_circle</span>
+                        <Icon name="check_circle" size="md" className="text-secondary" />
                         <span>Compliance: Fully Vetted</span>
                       </div>
                     </div>
@@ -246,7 +245,7 @@ export default async function Home() {
           ) : (
             <div className="text-center py-12">
               <div className="mx-auto w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl">work</span>
+                <Icon name="work" size="3xl" />
               </div>
               <h3 className="text-xl font-bold text-text-light dark:text-white mb-2">No Jobs Available Yet</h3>
               <p className="text-text-muted-light dark:text-text-muted-dark max-w-md mx-auto mb-6">
@@ -285,13 +284,13 @@ export default async function Home() {
                     
                     <div className="space-y-1 text-sm text-text-muted-light dark:text-text-muted-dark">
                       <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-base text-primary flex-shrink-0">paid</span>
+                        <Icon name="paid" size="md" className="text-primary flex-shrink-0" />
                         <span className="truncate">
                           Reward: <span className="font-semibold text-text-light dark:text-white">{survey.reward || 'Varies'}</span>
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-base text-primary flex-shrink-0">schedule</span>
+                        <Icon name="schedule" size="md" className="text-primary flex-shrink-0" />
                         <span className="truncate">Est. Time: {survey.time_estimate || 'Varies'}</span>
                       </div>
                     </div>
@@ -310,7 +309,7 @@ export default async function Home() {
           ) : (
             <div className="text-center py-12">
               <div className="mx-auto w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl">search</span>
+                <Icon name="search" size="3xl" />
               </div>
               <h3 className="text-xl font-bold text-text-light dark:text-white mb-2">No Surveys Available Yet</h3>
               <p className="text-text-muted-light dark:text-text-muted-dark max-w-md mx-auto mb-6">
@@ -343,7 +342,7 @@ export default async function Home() {
             <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-6 md:w-1/2">
               <div className="flex flex-col items-start gap-3 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 h-full">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined text-2xl">account_balance</span>
+                  <Icon name="account_balance" size="2xl" />
                 </div>
                 <h3 className="font-bold text-text-light dark:text-text-dark">Banking & Crypto</h3>
                 <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Navigate the evolving financial landscape where traditional banking meets innovative cryptocurrency opportunities.</p>
@@ -351,7 +350,7 @@ export default async function Home() {
 
               <div className="flex flex-col items-start gap-3 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 h-full">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined text-2xl">school</span>
+                  <Icon name="school" size="2xl" />
                 </div>
                 <h3 className="font-bold text-text-light dark:text-text-dark">Skill Learning</h3>
                 <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Master emerging professional competencies through targeted training and development.</p>
@@ -359,7 +358,7 @@ export default async function Home() {
 
               <div className="flex flex-col items-start gap-3 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 h-full">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined text-2xl">health_and_safety</span>
+                  <Icon name="health_and_safety" size="2xl" />
                 </div>
                 <h3 className="font-bold text-text-light dark:text-text-dark">Health and Wellbeing</h3>
                 <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Achieve complete physical, mental, and social well-being for sustained professional performance.</p>
@@ -367,7 +366,7 @@ export default async function Home() {
 
               <div className="flex flex-col items-start gap-3 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 h-full">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined text-2xl">trending_up</span>
+                  <Icon name="trending_up" size="2xl" />
                 </div>
                 <h3 className="font-bold text-text-light dark:text-text-dark">Productivity</h3>
                 <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Streamline workflows and enhance efficiency with strategies that reduce stress and improve outcomes.</p>
