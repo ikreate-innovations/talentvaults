@@ -20,6 +20,16 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
                  'Helvetica Neue', Arial, sans-serif;
   }
+  
+  /* ✅ FIX 1: Improve contrast for muted text on light background */
+  .text-text-muted-light { 
+    color: #606060; /* Changed from #999999 */
+  }
+  
+  /* ✅ FIX 2: Improve contrast for secondary colored text */
+  .text-secondary {
+    color: #2d9d2d; /* Changed from #a8d5a8 (light green) */
+  }
 }
 
 /* Custom Components */
