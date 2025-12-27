@@ -1,4 +1,4 @@
-// app/page.tsx - UPDATED WITH LUCIDE ICONS
+// app/page.tsx - UPDATED WITH LUCIDE ICONS & LOCAL GDPR-COMPLIANT IMAGES
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/db/supabase';
@@ -376,6 +376,9 @@ export default async function Home() {
         </div>
       </section>
       
+      {/* ============================================================ */}
+      {/* ✅ SECTION UPDATED: Testimonial Images now self-hosted (GDPR) */}
+      {/* ============================================================ */}
       <section className="py-16 sm:py-24 bg-background-light dark:bg-card-dark">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-4 text-center">
@@ -386,7 +389,8 @@ export default async function Home() {
             <div className="flex flex-col rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-background-dark p-6">
               <p className="text-text-muted-light dark:text-text-muted-dark">"Finally, a platform that respects senior talent. The quality of opportunities and the insights on TalentVaults are unmatched. It's the first place I look."</p>
               <div className="mt-4 flex items-center gap-3 border-t border-border-light dark:border-border-dark pt-4">
-                <Image alt="Photo of Anna Kowalski" width={40} height={40} className="size-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQQan7V0UJnBw1m62mCbwwFzVekgoOTZiWLXjNAXL4Tn2lGZQ5jY6N1l4sMYw8mcANRu8Sq2j22x-UOvQOGIKl5-_Zfq7iByINEt61sLvoFLcm3dqBQRs6TboIBq_B9N7xX0K1-Lu1MnoQO1yjAjcSYopSo8U4YHH1XFq5eVw2CzuHA1JxnIeS2R18sbc1BYsKDIHKjGc1aBjYtGxbV0lgDkLkBi-OFTy1AOg2OcPUx_87416R8kKWpbL4nW3MzlGCgZuI-8s2Oo4" unoptimized={true} />
+                {/* ✅ UPDATED: Local image path for GDPR compliance */}
+                <Image alt="Photo of Katarina V." width={40} height={40} className="size-10 rounded-full" src="/images/testimonials/anna-kowalski.png" />
                 <div>
                   <p className="font-semibold text-text-light dark:text-text-dark">Katarina V.</p>
                   <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Software Architect, Berlin</p>
@@ -396,7 +400,8 @@ export default async function Home() {
             <div className="flex flex-col rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-background-dark p-6">
               <p className="text-text-muted-light dark:text-text-muted-dark">"I used to spend hours scrolling through generic job boards. TalentVaults saved me so much time. The compliance info alone is worth its weight in gold for a freelancer like me."</p>
               <div className="mt-4 flex items-center gap-3 border-t border-border-light dark:border-border-dark pt-4">
-                <Image alt="Photo of Javier Moreno" width={40} height={40} className="size-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj249ErbAlulx12JQa3eH9--yz7qNv6MB6dtocJJO6Clt3VdH_raRynRhynL_Gtr2O6Q4x6kTZJGFV3gG3VrLmZOQHIUlbs_2gT1NfndY9vr_0AdgDhhV-3vn9jM7zIY5XrkHjmENYq_sXBW7YC6lHuFrCbeSawAEbQu-oeNISdkdwWUqmcA5OzXZGiK1Ccax6bKoxcKKWIqN1V1BbV06J6SmHMt3JFHbeCMMOsc2j9jIV4svuGcFAE99tvwgWq3AYxox7Bv_ywhk" unoptimized={true} />
+                {/* ✅ UPDATED: Local image path for GDPR compliance */}
+                <Image alt="Photo of Javier M." width={40} height={40} className="size-10 rounded-full" src="/images/testimonials/javier-moreno.png" />
                 <div>
                   <p className="font-semibold text-text-light dark:text-text-dark">Javier M.</p>
                   <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Freelance Consultant, Madrid</p>
@@ -406,7 +411,8 @@ export default async function Home() {
             <div className="flex flex-col rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-background-dark p-6">
               <p className="text-text-muted-light dark:text-text-muted-dark">"The vetting process is clearly visible in the quality of the listings. I landed a fantastic remote role at a company I'd never have found otherwise. Highly recommended."</p>
               <div className="mt-4 flex items-center gap-3 border-t border-border-light dark:border-border-dark pt-4">
-                <Image alt="Photo of Sofia Rossi" width={40} height={40} className="size-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsv8PGwmzkVre0E-TXdyNwf9OcBvMR1ZY3s2RaUPEoqiZ8DAVp_lPJ_s3RN-a5PFfaY0vWC_C9zhll5Hu9EFLvx1AqmFihgvWRaNtJU5hZtVg-qz1Pw866MtNyfasD2xROxrvGgVH4AzXQYFNodn-K4r4mG-uRLjuhDhDm2cJoHO0vVVumxgZTJDCA3VBsVTVTdUmb_wTFBMiIQMX26ef5IdKvQwUXKZlH6V5iLJCv4Mx37GIP6nwv3QRpi7G9jOVmYooh_LeBXh8" unoptimized={true} />
+                {/* ✅ UPDATED: Local image path for GDPR compliance */}
+                <Image alt="Photo of Chloé D." width={40} height={40} className="size-10 rounded-full" src="/images/testimonials/sofia-rossi.png" />
                 <div>
                   <p className="font-semibold text-text-light dark:text-text-dark">Chloé D.</p>
                   <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Marketing Director, Paris</p>
