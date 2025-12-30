@@ -45,7 +45,7 @@ export default function Footer() {
                     className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 group text-sm"
                   >
                     <Icon name="mail" className="text-sm" />
-                    <span className="font-medium">iknnovating@gmail.com</span>
+                    <span className="font-medium">info@talentvaults.com</span>
                   </a>
                 </div>
               </div>

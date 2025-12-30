@@ -60,12 +60,12 @@ export default function ImprintPage() {
               
               <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">Represented by:</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
-                German Alonso Quintanilla Guandique (Member of the Management Board)
+                German Guandique (Member of the Management Board)
               </p>
               
               <h3 className="text-xl font-semibold mt-6 text-text-light dark:text-white">Contact:</h3>
               <p className="text-text-light dark:text-gray-300 leading-relaxed mt-2">
-                Email: iknnovating@gmail.com<br/>
+                Email: info@talentvaults.com<br/>
                 Website: www.talentvaults.com
               </p>
             </section>
@@ -114,9 +114,9 @@ export default function ImprintPage() {
               <div className="pl-4 border-l-2 border-primary mt-4">
                 <p className="text-text-light dark:text-gray-300 leading-relaxed">
                   <strong>iKreate Innovations OÜ</strong><br/>
-                  Attn: German Alonso Quintanilla Guandique<br/>
+                  Attn: German Guandique<br/>
                   Harju maakond, Tallinn, Kesklinna linnaosa, Ahtri tn 12, 15551, Estonia<br/>
-                  Email: iknnovating@gmail.com
+                  Email: info@talentvaults.com
                 </p>
               </div>
             </section>

@@ -55,8 +55,8 @@ export default function TermsOfServicePage() {
                   <strong>iKreate Innovations OÜ</strong><br/>
                   Registry Code: 16848376<br/>
                   Harju maakond, Tallinn, Kesklinna linnaosa, Ahtri tn 12, 15551, Estonia<br/>
-                  <strong>Represented by:</strong> German Alonso Quintanilla Guandique (Member of the Management Board)<br/>
-                  <strong>Contact:</strong> iknnovating@gmail.com
+                  <strong>Represented by:</strong> German Guandique (Member of the Management Board)<br/>
+                  <strong>Contact:</strong> info@talentvaults.com
                 </p>
               </div>
               

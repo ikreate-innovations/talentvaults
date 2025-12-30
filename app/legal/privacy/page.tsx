@@ -1,10 +1,9 @@
 // app/legal/privacy/page.tsx
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | TalentVaults',
-  description: 'Our commitment to protecting your privacy and managing your data.',
+  description: 'Our commitment to protecting your privacy and managing your data responsibly.',
 };
 
 export default function PrivacyPolicyPage() {
@@ -19,27 +18,28 @@ export default function PrivacyPolicyPage() {
             <a className="px-3 py-2 text-sm font-medium text-white bg-primary rounded-lg" href="#overview">Overview</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#data-collection">Data Collection</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#database-hosting">Database Hosting</a>
-            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#cookies">Cookies Management</a>
+            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#cookies">Cookies</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#affiliate">Affiliate Links</a>
-            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#google-services">Google Services</a>
+            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#retention">Data Retention</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#rights">Your Rights</a>
+            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#subprocessors">Sub-Processors</a>
+            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#breaches">Breach Notification</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#complaints">Right to Complain</a>
             <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#international">International Residents</a>
-            <a className="px-3 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#cookies-table">Cookie Table</a>
           </nav>
         </aside>
 
-        {/* Policy Content */}
+        {/* Policy Content - COMPLETELY UPDATED */}
         <div className="flex-1 min-w-0">
           <article className="prose prose-slate dark:prose-invert max-w-none space-y-8"> 
           
-            {/* PageHeading */}
+            {/* Page Heading */}
             <div className="flex flex-col gap-2 border-b border-border-light dark:border-border-dark pb-6">
               <h1 className="text-text-light dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Privacy Policy</h1>
-              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 15, 2025</p>
+              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 28, 2025</p>
             </div>
             
-            {/* Overview Section */}
+            {/* 1. Overview Section - UPDATED EMAIL */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="overview">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">1. Overview and Responsible Body</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -57,11 +57,12 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
                   <strong>Represented by:</strong><br/>
-                  German Alonso Quintanilla Guandique (Member of the Management Board)
+                  German Guandique (Member of the Management Board)
                 </p>
                 <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
                   <strong>Contact:</strong><br/>
-                  Email: iknnovating@gmail.com
+                  Email: info@talentvaults.com<br/>
+                  For privacy-specific inquiries: info@talentvaults.com
                 </p>
               </div>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
@@ -69,7 +70,7 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
             
-            {/* Data Collection Section */}
+            {/* 2. Data Collection Section - UPDATED CLOUDFLARE DETAILS */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="data-collection">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">2. General Data Collection (Server Log Files)</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -80,11 +81,30 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Data Collected:</strong> Full IP addresses, browser type/version, operating system, referrer URL, and time of request.</li>
                 <li><strong>Retention:</strong> IP addresses are retained by Netlify for a maximum of 90 days to detect and prevent fraud and unauthorized access, after which they are rotated or deleted.</li>
                 <li><strong>Legal Basis:</strong> Art. 6(1)(f) GDPR (Legitimate Interest in website security, fraud prevention, and ensuring service functionality). You have the right to object to this processing under Article 21 GDPR.</li>
-                <li><strong>Data Processing Agreement (DPA):</strong> We maintain a DPA with Netlify that includes Standard Contractual Clauses (SCCs) to ensure GDPR compliance. For details on how Netlify handles your data, see Netlify's privacy policy: <a href="https://www.netlify.com/privacy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/privacy/</a></li>
+                <li><strong>Data Processing Agreement (DPA):</strong> We maintain a DPA with Netlify that includes Standard Contractual Clauses (SCCs) to ensure GDPR compliance.</li>
+                <li><strong>Netlify Privacy Policy:</strong> <a href="https://www.netlify.com/privacy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/privacy/</a></li>
+              </ul>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Cloudflare Security & DPA Details</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We use Cloudflare for security and performance optimization. Cloudflare sets essential security cookies and processes your IP address for security purposes.
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Provider:</strong> Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA.</li>
+                <li><strong>Cloudflare Data Processing Agreement:</strong>
+                  <ul className="list-circle list-outside pl-5 space-y-1 mt-1">
+                    <li><strong>DPA Version:</strong> Cloudflare Data Processing Addendum v6.3 (effective June 19, 2025)</li>
+                    <li><strong>Transfer Mechanism:</strong> EU-US Data Privacy Framework (Cloudflare is certified)</li>
+                    <li><strong>Alternative Safeguards:</strong> Standard Contractual Clauses (Module Two)</li>
+                    <li><strong>Data Processed:</strong> IP address for security and bot protection</li>
+                    <li><strong>Location:</strong> Your IP is processed in Cloudflare's global network including US servers</li>
+                  </ul>
+                </li>
+                <li><strong>Cloudflare Privacy Policy:</strong> <a href="https://www.cloudflare.com/privacypolicy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.cloudflare.com/privacypolicy/</a></li>
               </ul>
             </section>
             
-            {/* Database Hosting Section */}
+            {/* 3. Database Hosting Section - UPDATED WITH SUB-PROCESSORS */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="database-hosting">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">3. Database Hosting (Supabase)</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -93,160 +113,36 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 <li><strong>Provider:</strong> Supabase, Inc., 970 Toa Payoh North #07-04, Singapore 318992.</li>
                 <li><strong>Purpose:</strong> Hosting database content and delivering public data to the website. We do not currently use Supabase for user authentication or login sessions.</li>
-                <li><strong>Data Transfer & Safeguards:</strong> Supabase hosts our primary database in West EU (Ireland) on Amazon Web Services (AWS). However, supporting infrastructure (logs, analytics) may involve processing in the US or Singapore. We have conducted a Transfer Impact Assessment (TIA) and determined that appropriate safeguards are in place, including:
-                  <ul className="list-circle list-outside pl-5 space-y-1 mt-2">
-                    <li>Standard Contractual Clauses (Module Two).</li>
-                    <li>Encryption in transit (TLS 1.2) and at rest (AES-256).</li>
-                    <li>Adherence to the EU-US Data Privacy Framework principles.</li>
+                <li><strong>Primary Location:</strong> AWS Ireland (eu-west-1) — EU-adequate</li>
+                <li><strong>Supabase Transfer Safeguards Detail:</strong>
+                  <ul className="list-circle list-outside pl-5 space-y-2 mt-2">
+                    <li><strong>Primary Database:</strong> AWS Ireland (eu-west-1) — EU-adequate, no transfer needed</li>
+                    <li><strong>Logs & Monitoring:</strong> AWS CloudWatch may process logs in US — requires transfer safeguards</li>
+                    <li><strong>Transfer Mechanism:</strong> Standard Contractual Clauses (Module Two) + Encryption (AES-256 at rest, TLS 1.2 in transit)</li>
+                    <li><strong>Schrems II Assessment:</strong>
+                      <ul className="list-none pl-5 space-y-1 mt-1">
+                        <li>✓ Essential functions test: Data transfer is essential to service provision</li>
+                        <li>✓ Supplementary measures: AES-256 encryption at rest, TLS encryption in transit</li>
+                        <li>✓ Adequacy assessment: No mass surveillance risks identified specific to Supabase infrastructure</li>
+                      </ul>
+                    </li>
+                    <li><strong>Sub-processors:</strong> See <a href="https://supabase.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a> for complete list</li>
                   </ul>
                 </li>
-                <li><strong>Privacy Policy:</strong> <a href="https://supabase.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></li>
+                <li><strong>Supabase Privacy Policy:</strong> <a href="https://supabase.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></li>
               </ul>
             </section>
             
-            {/* Cookies Section */}
+            {/* 4. Cookies Section - COMPLETELY REWRITTEN */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="cookies">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">4. Cookies and Consent Management</h2>
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">4. Cookies</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Our website utilizes cookies—small text files stored on your device—to ensure functionality and analyze traffic.
+                Our website utilizes only essential cookies—small text files stored on your device—that are required for the site to function properly and securely.
               </p>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Consent Management Platform (CMP)</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                To manage your consent preferences transparently, we use Cookiebot. Cookiebot scans our site to control cookies and may collect technical data about your device to display the correct consent options.
-              </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Function:</strong> Cookiebot automatically blocks all non-essential cookies (such as those for Statistics) until you grant explicit consent.</li>
-                <li><strong>Legal Basis:</strong> Art. 6(1)(c) GDPR (Legal Obligation to obtain valid consent).</li>
-                <li><strong>Your Choice:</strong> You can manage or withdraw your consent at any time by clicking the "Cookie Settings" link in the footer of every page. Changes take effect immediately.</li>
-              </ul>
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Essential Cookies We Use</h3>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Categories of Cookies</h3>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Strictly Necessary:</strong> Required for the site to function (e.g., saving your consent preference, session security). No consent is required for these.</li>
-                <li><strong>Statistics:</strong> Used to track behavior anonymously (e.g., Google Analytics). Consent is required.</li>
-              </ul>
-            </section>
-            
-            {/* Affiliate Links Section */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="affiliate">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">5. Affiliate Links and Partner Redirection</h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Our website features tools and platforms from third-party partners.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Affiliate Link Disclosure</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Buttons marked with "Apply Now", "Participate Now", "Visit Website", or similar calls to action are embedded with our unique referral identifiers.
-              </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Respondent.io:</strong> If you sign up through this button, successfully pass the screener for a survey, and complete the study, Respondent.io pays TalentVaults a commission.</li>
-                <li><strong>Mercor:</strong> If you apply through this button, successfully pass Mercor's application process, and complete the minimum required paid work, Mercor pays TalentVaults a commission.</li>
-                <li><strong>Wise:</strong> If you sign up through this button and use or purchase the relevant service, the provider pays TalentVaults a commission.</li>
-              </ul>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Tracking Mechanism</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                When you click one of these buttons, you are redirected to the partner's domain. The URL contains a generic partner ID that identifies TalentVaults as the referrer. This ID allows the partner to attribute the commission to us. We do not generate or pass any unique user-ID, pseudonymized profile data, or personal contact details to these partners during this redirect.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Legal Basis (Art. 6(1)(f) GDPR)</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We rely on our legitimate interest in financing our free services through affiliate commissions. The processing of the redirect data is limited to the absolute minimum necessary to attribute the referral.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Your Choice</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Interaction with these affiliate links is entirely voluntary. If you do not wish for this referral attribution to occur, please visit the partner websites directly without clicking the links on our platform.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Specific Partners:</h3>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li>Respondent.io: <a href="www.respondent.io/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">www.respondent.io/privacy-policy</a></li>
-                <li>Mercor.com: <a href="www.mercor.com/data-privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">www.mercor.com/data-privacy-policy</a></li>
-              </ul>
-            </section>
-            
-            {/* Google Services Section */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="google-services">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">6. Google Services</h2>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Google Analytics 4 (GA4)</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                If you have given your explicit consent via our cookie banner, we use Google Analytics to analyze website usage and improve our content.
-              </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Provider:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.</li>
-                <li><strong>Anonymization:</strong> We utilize IP anonymization. Your IP address is shortened before being transmitted to Google servers.</li>
-                <li><strong>Legal Basis:</strong> Art. 6(1)(a) GDPR (Consent).</li>
-              </ul>
-            </section>
-            
-            {/* Your Rights Section */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="rights">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">7. Your Rights (GDPR)</h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                You have the following rights regarding your personal data:
-              </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Right to Access (Art. 15 GDPR):</strong> Request a copy of your data.</li>
-                <li><strong>Right to Rectification (Art. 16 GDPR):</strong> Correct inaccurate data.</li>
-                <li><strong>Right to Erasure (Art. 17 GDPR):</strong> Request the deletion of your data.</li>
-                <li><strong>Right to Restrict Processing (Art. 18 GDPR).</strong></li>
-                <li><strong>Right to Data Portability (Art. 20 GDPR).</strong></li>
-                <li><strong>Right to Object (Art. 21 GDPR):</strong> Object to processing based on legitimate interest.</li>
-              </ul>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                To exercise these rights, please contact us at: <a href="mailto:iknnovating@gmail.com" className="text-primary hover:underline">iknnovating@gmail.com</a>
-              </p>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We do not use automated decision-making or profiling (Art. 22 GDPR) that has legal effects on you.
-              </p>
-            </section>
-            
-            {/* Right to Complain Section */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="complaints">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">8. Right to Complain</h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                If you believe our processing of your data violates data protection law, you have the right to lodge a complaint with a supervisory authority, in particular in the Member State of your habitual residence, place of work, or the place of the alleged infringement (Art. 77 GDPR).
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Lead Supervisory Authority (for iKreate Innovations OÜ):</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon)<br/>
-                Tatari 39, 10134 Tallinn, Estonia<br/>
-                Email: <a href="mailto:info@aki.ee" className="text-primary hover:underline">info@aki.ee</a>
-              </p>
-            </section>
-            
-            {/* International Residents Section */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="international">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">9. International Residents</h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>For Residents of US States (CCPA/CPRA/VCDPA):</strong> We do not currently sell or share personal information as defined under these laws. You have rights to access, delete, and opt-out of data sales, which you can exercise by emailing <a href="mailto:iknnovating@gmail.com" className="text-primary hover:underline">iknnovating@gmail.com</a>.
-              </p>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>For UK Residents:</strong> UK GDPR applies; your rights are as described in the GDPR section above.
-              </p>
-            </section>
-            
-            {/* Integrated Cookie Policy */}
-            <section className="space-y-4 pt-6 scroll-mt-24" id="cookies-table">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">Integrated Cookie Policy</h2>
-              <p className="text-text-light dark:text-text-dark text-sm font-normal leading-normal text-gray-500 dark:text-gray-400">Last Updated: December 15, 2025</p>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                This Cookie Policy is an integrated part of our Privacy Policy.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">What are Cookies?</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Cookies are small text files stored by your web browser used to enhance functionality, manage preferences, or track anonymous usage behavior.
-              </p>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">How We Use Cookies</h3>
-              
-              {/* Cookie Table */}
-              <div className="overflow-x-auto mt-6">
+              <div className="overflow-x-auto mt-4">
                 <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
                   <thead>
                     <tr className="bg-gray-50 dark:bg-gray-800">
@@ -270,77 +166,58 @@ export default function PrivacyPolicyPage() {
                   <tbody className="bg-white dark:bg-gray-900 divide-y divide-border-light dark:divide-border-dark">
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        CookieConsent
+                        __cf_bm
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Cookiebot
+                        Cloudflare
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Stores your specific consent status
+                        Bot protection & security
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        1 Year
+                        30 minutes
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          Necessary
+                          Essential
                         </span>
                       </td>
                     </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        __cf_bm, __cflb
+                        __cflb
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Supabase
+                        Cloudflare
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Security and Traffic Management
+                        Load balancing & security
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        30 min / 1 day
+                        1 day
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          Necessary
+                          Essential
                         </span>
                       </td>
                     </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        _ga
+                        cv_cookie
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Google
+                        TalentVaults
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Distinguishes users for Analytics (if consented)
+                        Stores your cookie preference acknowledgment
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        2 Years
+                        1 year
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                          Statistics
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        _gid
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Google
-                      </td>
-                      <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Distinguishes users for Analytics (if consented)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        24 Hours
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                          Statistics
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                          Essential
                         </span>
                       </td>
                     </tr>
@@ -348,15 +225,453 @@ export default function PrivacyPolicyPage() {
                 </table>
               </div>
               
-              <p className="text-text-light dark:text-text-dark text-sm mt-4 text-gray-500 dark:text-gray-400">
-                <strong>Note:</strong> For a dynamic, real-time list, please utilize the automated "Cookie Declaration" script provided by Cookiebot on this page, as it will accurately reflect every cookie found during the last scan.
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Informational Banner</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We display a simple informational banner to notify you about our use of essential cookies. This banner does not require consent as the cookies used are strictly necessary for the website's operation and security.
               </p>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Managing Cookies</h3>
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Managing Your Cookies</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                You can withdraw consent for Statistics cookies at any time via the "Cookie Settings" link in our footer. You can also disable cookies entirely in your browser settings; however, this may impair the basic functionality of the website.
+                Since we only use essential cookies, no consent management is required. However, you can disable cookies entirely in your browser settings:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Chrome:</strong> Settings → Privacy and security → Cookies and other site data</li>
+                <li><strong>Firefox:</strong> Preferences → Privacy & Security → Cookies and Site Data</li>
+                <li><strong>Safari:</strong> Preferences → Privacy → Cookies and website data</li>
+                <li><strong>Edge:</strong> Settings → Cookies and site permissions → Cookies and site data</li>
+              </ul>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
+                <strong>Note:</strong> Disabling essential cookies may impair website functionality and security features.
               </p>
             </section>
+            
+            {/* 5. Affiliate Links Section - UPDATED WITH DISCLOSURE & LEGAL BASIS */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="affiliate">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">5. Affiliate Links and Partner Redirection</h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Our website features tools and platforms from third-party partners. <strong>All affiliate buttons are clearly labeled with a partner identifier.</strong> Compensation details for each partner are disclosed below.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Affiliate Link Disclosure</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Buttons marked with "Apply Now", "Participate Now", "Visit Website", or similar calls to action are embedded with our unique referral identifiers and are visibly marked as partner links.
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Respondent.io:</strong> If you sign up through this button, successfully pass the screener for a survey, and complete the study, Respondent.io pays TalentVaults a commission.</li>
+                <li><strong>Mercor:</strong> If you apply through this button, successfully pass Mercor's application process, and complete the minimum required paid work, Mercor pays TalentVaults a commission.</li>
+                <li><strong>Wise:</strong> If you sign up through this button and use or purchase the relevant service, the provider pays TalentVaults a commission.</li>
+              </ul>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Tracking Mechanism</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                When you click one of these buttons, you are redirected to the partner's domain. The URL contains a generic partner ID that identifies TalentVaults as the referrer. This ID allows the partner to attribute the commission to us. We do not generate or pass any unique user-ID, pseudonymized profile data, or personal contact details to these partners during this redirect.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Affiliate Partner ID Tracking - Legal Basis Analysis</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Legal Basis:</strong> Article 6(1)(f) GDPR (Legitimate Interest)
+              </p>
+              
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mt-2">
+                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                  <strong>1. Purpose:</strong> Finance free website and content production; sustainable operation without advertising or subscriptions; partner programs offer users value (discounts, opportunities).
+                </p>
+                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
+                  <strong>2. Necessity:</strong> Generic partner ID is necessary to attribute referral; no personal data is passed to partners; minimal data: URL-based identifier + timestamp; users voluntarily click affiliate links.
+                </p>
+                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
+                  <strong>3. Balancing Test:</strong> Our interest (sustainable business model for free services) vs. data subject expectation (low expectation of privacy for publicly-shared links). Risk to data subject is minimal - partners only know a generic ID linked to visitor. Fully transparent with user control options.
+                </p>
+              </div>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
+                <strong>Conclusion:</strong> Legitimate interest is justified. Privacy impact is minimal and proportionate to benefit.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Your Choice & Right to Object</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Interaction with these affiliate links is entirely voluntary. If you do not wish for this referral attribution to occur, please visit the partner websites directly without clicking the links on our platform.
+              </p>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Your Right to Object (Art. 21 GDPR):</strong> You may object to affiliate partner ID tracking. Submit objections to info@talentvaults.com. We will respond within 30 days.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Partner Privacy Policies:</h3>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li>Respondent.io: <a href="https://www.respondent.io/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.respondent.io/privacy-policy</a></li>
+                <li>Mercor: <a href="https://www.mercor.com/data-privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.mercor.com/data-privacy-policy</a></li>
+                <li>Wise: <a href="https://wise.com/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://wise.com/privacy-policy</a></li>
+              </ul>
+            </section>
+            
+            {/* 6. Data Retention Section - NEW */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="retention">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">6. Data Retention Schedule</h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We retain personal data only as long as necessary for the purposes outlined in this policy, in accordance with GDPR Art. 5(1)(e).
+              </p>
+              
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                  <thead>
+                    <tr className="bg-gray-50 dark:bg-gray-800">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Data Type
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Processor
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Retention Period
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Legal Basis
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-border-light dark:divide-border-dark">
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Server log files (IP, User-Agent)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Netlify
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        90 days maximum
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Legitimate interest (security)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Cloudflare security cookies
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Cloudflare
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        30 min (__cf_bm), 1 day (__cflb)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Essential for security
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Cookie preference (cv_cookie)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        TalentVaults
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        1 year
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Legitimate interest
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Supabase database content
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Supabase
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        As long as necessary for service; deleted on request
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        User consent / contract
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Affiliate redirect logs
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Partner services
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Per partner policy (typically 90-365 days)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Legitimate interest (commission tracking)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
+                <strong>Data subjects can request early deletion</strong> of their data by contacting info@talentvaults.com. We will process deletion requests within 30 days.
+              </p>
+            </section>
+            
+            {/* 7. Your Rights Section - UPDATED */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="rights">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">7. Your Rights (GDPR)</h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                You have the following rights regarding your personal data under the General Data Protection Regulation:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Right to Access (Art. 15 GDPR):</strong> Request a copy of your personal data we process.</li>
+                <li><strong>Right to Rectification (Art. 16 GDPR):</strong> Correct inaccurate or incomplete personal data.</li>
+                <li><strong>Right to Erasure (Art. 17 GDPR):</strong> Request deletion of your personal data ("right to be forgotten").</li>
+                <li><strong>Right to Restrict Processing (Art. 18 GDPR):</strong> Request temporary restriction of processing in certain circumstances.</li>
+                <li><strong>Right to Data Portability (Art. 20 GDPR):</strong> Receive your data in a structured, machine-readable format.</li>
+                <li><strong>Right to Object (Art. 21 GDPR):</strong> Object to processing based on legitimate interest, including affiliate tracking. Submit objections to info@talentvaults.com.</li>
+                <li><strong>Right to Withdraw Consent (Art. 7(3) GDPR):</strong> Withdraw previously given consent at any time.</li>
+              </ul>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                To exercise these rights, please contact us at: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
+              </p>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We will respond to all legitimate requests within 30 days. We may request specific information to verify your identity before processing your request.
+              </p>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We do not use automated decision-making or profiling (Art. 22 GDPR) that has legal effects on you.
+              </p>
+            </section>
+            
+            {/* 8. Sub-Processors Section - NEW */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="subprocessors">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">8. Sub-Processors & Change Notifications</h2>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Current Sub-Processors</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We use the following service providers who may process personal data on our behalf:
+              </p>
+              
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                  <thead>
+                    <tr className="bg-gray-50 dark:bg-gray-800">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Processor
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Service
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Sub-Processors
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Location
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-border-light dark:divide-border-dark">
+                    <tr>
+                      <td className="px-4 py-3 text-sm font-medium text-text-light dark:text-text-dark">
+                        Netlify, Inc.
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Website hosting & CDN
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        AWS, Fastly, etc.
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        USA (with EU safeguards)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm font-medium text-text-light dark:text-text-dark">
+                        Supabase, Inc.
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Database hosting
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        AWS, CloudWatch
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Ireland (primary), USA (logs)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm font-medium text-text-light dark:text-text-dark">
+                        Cloudflare, Inc.
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Security & performance
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Various infrastructure partners
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Global (with DPF certification)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Sub-Processor Change Notification Process</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                When our service providers add or change sub-processors, they notify us in advance.
+              </p>
+
+              <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">Material vs Non-Material Changes</h4>
+              <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Material</strong> (notified via email): Location changes, new data types, security downgrades</li>
+                <li><strong>Non-Material</strong> (policy update only): Sub-processor name changes, address updates</li>
+              </ul>
+
+              <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">Notification Method</h4>
+              <ol className="list-decimal list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Review the change</strong> for data protection compliance</li>
+                <li><strong>Update this privacy policy</strong> within 30 days (published on website, highlighted as "UPDATED [DATE]")</li>
+                <li><strong>Notify registered users</strong> via email for material changes (if applicable)</li>
+                <li><strong>Allow objections</strong> by request to info@talentvaults.com (object within 30 days; we respond within 30 days)</li>
+              </ol>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
+                <strong>Current Sub-Processor Lists:</strong>
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li>Netlify: <a href="https://www.netlify.com/gdpr/subprocessors/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/gdpr/subprocessors/</a></li>
+                <li>Supabase: <a href="https://supabase.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></li>
+                <li>Cloudflare: <a href="https://www.cloudflare.com/gdpr/subprocessors/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.cloudflare.com/gdpr/subprocessors/</a></li>
+              </ul>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
+                Users can request the full current sub-processor list by emailing info@talentvaults.com.
+              </p>
+            </section>
+            
+            {/* 9. Breach Notification Section - NEW */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="breaches">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">9. Data Breach Notification Procedure</h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                In accordance with GDPR Articles 33-34, we have established procedures for data breach notification.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Our Commitment</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                If a personal data breach occurs that is likely to result in a risk to individuals' rights and freedoms, we will:
+              </p>
+              <ol className="list-decimal list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Notify the Estonian Data Protection Inspectorate (DPA)</strong> within 72 hours of becoming aware of the breach (Art. 33 GDPR)</li>
+                <li><strong>Notify affected data subjects</strong> without undue delay if the breach poses a high risk to their rights and freedoms (Art. 34 GDPR)</li>
+              </ol>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Notification Contents</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Breach notifications will include:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li>Nature and scope of the personal data breach</li>
+                <li>Likely consequences for data subjects</li>
+                <li>Measures taken or proposed to address the breach</li>
+                <li>Contact details for further information</li>
+              </ul>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Reporting Security Incidents</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                If you suspect a security incident or data breach involving our services, please report it immediately to: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
+              </p>
+              
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mt-4">
+                <p className="text-text-light dark:text-text-dark text-sm font-medium">
+                  <strong>Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon)</strong><br/>
+                  Tatari 39, 10134 Tallinn, Estonia<br/>
+                  Email: <a href="mailto:info@aki.ee" className="text-primary hover:underline">info@aki.ee</a><br/>
+                  Website: <a href="https://www.aki.ee" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.aki.ee</a>
+                </p>
+              </div>
+            </section>
+            
+            {/* 10. Right to Complain Section - UPDATED */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="complaints">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">10. Right to Complain</h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                If you believe our processing of your personal data violates data protection law, you have the right to lodge a complaint with a supervisory authority, in particular in the Member State of your habitual residence, place of work, or the place of the alleged infringement (Art. 77 GDPR).
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Lead Supervisory Authority</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                For iKreate Innovations OÜ, the lead supervisory authority is:
+              </p>
+              <div className="pl-4 border-l-2 border-primary mt-2">
+                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                  <strong>Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon)</strong><br/>
+                  Tatari 39, 10134 Tallinn, Estonia<br/>
+                  Phone: +372 627 4135<br/>
+                  Email: <a href="mailto:info@aki.ee" className="text-primary hover:underline">info@aki.ee</a><br/>
+                  Website: <a href="https://www.aki.ee" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.aki.ee</a>
+                </p>
+              </div>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
+                We encourage you to contact us first at <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a> to resolve any concerns before approaching a supervisory authority.
+              </p>
+            </section>
+            
+            {/* 11. International Residents Section - UPDATED */}
+            <section className="space-y-4 pt-6 scroll-mt-24" id="international">
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">11. International Residents</h2>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">For California Residents (CCPA/CPRA)</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                You have the right to:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Know:</strong> Access all personal data we collect (Right to Know)</li>
+                <li><strong>Delete:</strong> Request deletion of your data (Right to Delete)</li>
+                <li><strong>Correct:</strong> Request correction of inaccurate data (CPRA only)</li>
+                <li><strong>Opt-Out of Sale:</strong> We do NOT currently sell personal information</li>
+                <li><strong>Opt-Out of Sharing:</strong> We do NOT currently share personal information for targeted advertising</li>
+              </ul>
+
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
+                <strong>How to Exercise Your Rights:</strong><br/>
+                Email: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a><br/>
+                Subject: "CCPA [Right Name] Request"<br/>
+                Include: Your name, email, specific request
+              </p>
+
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mt-2">
+                <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed">
+                  <strong>Our Timeline:</strong> We will respond within 45 calendar days (may extend 45 additional days if complex)<br/>
+                  <strong>Verification:</strong> We may request additional information to verify your identity<br/>
+                  <strong>Non-Discrimination:</strong> We will not discriminate against you for exercising your rights
+                </p>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-4">
+                <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">California "Do Not Sell My Information"</h4>
+                <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed">
+                  We do not sell your personal information as defined under CCPA/CPRA. To exercise your California privacy rights or request confirmation that we do not sell your data, email: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
+                </p>
+              </div>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">UK Residents</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                The UK General Data Protection Regulation (UK GDPR) and Data Protection Act 2018 apply to our processing of UK residents' personal data. Your rights are as described in Section 7 (Your Rights) above.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Switzerland Residents</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                The Swiss Federal Act on Data Protection (FADP) applies. We process Swiss residents' data with equivalent protections to GDPR.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Other International Users</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                By using our website, you consent to the processing of your personal data in Estonia and other locations where our service providers operate, with appropriate safeguards as described in this policy.
+              </p>
+            </section>
+            
+            {/* Final Notes */}
+            <div className="border-t border-border-light dark:border-border-dark pt-6 mt-8">
+              <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed">
+                <strong>Policy Updates:</strong> We may update this privacy policy periodically. Material changes will be highlighted with "UPDATED [DATE]" markers and communicated to registered users via email if applicable.
+              </p>
+              <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed mt-2">
+                <strong>Contact:</strong> For questions about this privacy policy or our data practices, contact us at <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>.
+              </p>
+            </div>
             
           </article>
         </div>

@@ -1,8 +1,9 @@
-// app/layout.tsx - UPDATED (Remove Inter font for GDPR)
+// app/layout.tsx - COMPLETE CORRECTED VERSION
 import type { Metadata } from 'next';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CookieConsentClient from './components/CookieConsentClient';
 
 export const metadata: Metadata = {
   title: 'TalentVaults - Curated Remote Opportunities for Professionals',
@@ -17,39 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <head>
-        {/* GDPR compliant - no external fonts */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* ✅ Self-hosted CookieConsent CSS for GDPR compliance */}
+        <link rel="stylesheet" href="/cookieconsent/cookieconsent.css" />
       </head>
       <body className="bg-background-light text-text-light antialiased">
-        {/* LOCALSTORAGE CLEANUP SCRIPT - SILENT VERSION */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  if (typeof window !== 'undefined') {
-                    // Remove Cohere items
-                    localStorage.removeItem('frontChat:store');
-                    localStorage.removeItem('frontChat:status');
-                    localStorage.removeItem('cohereLastSessionId');
-                    localStorage.removeItem('cohereLastWsServerAddr');
-                    localStorage.removeItem('cohere_session_storage_lock');
-                    
-                    // Remove Bugsnag item
-                    localStorage.removeItem('bugsnag-anonymous-id');
-                    
-                    // Remove referrer tracking items
-                    localStorage.removeItem('lastExternalReferrer');
-                    localStorage.removeItem('lastExternalReferrerTime');
-                  }
-                } catch (e) {
-                  // Silent fail - don't show errors to users
-                }
-              })();
-            `,
-          }}
-        />
-        
         <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
           <div className="layout-container flex h-full grow flex-col">
             <Header />
@@ -59,6 +32,9 @@ export default function RootLayout({
             <Footer />
           </div>
         </div>
+        
+        {/* ✅ Client Component for Cookie Consent */}
+        <CookieConsentClient />
       </body>
     </html>
   );
