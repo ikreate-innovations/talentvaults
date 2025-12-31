@@ -1,4 +1,4 @@
-// app/legal/privacy/page.tsx
+// app/legal/privacy/page.tsx - FULLY UPDATED FOR GDPR/CCPA COMPLIANCE
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
           </nav>
         </aside>
 
-        {/* Policy Content - COMPLETELY UPDATED */}
+        {/* Policy Content - FULLY UPDATED */}
         <div className="flex-1 min-w-0">
           <article className="prose prose-slate dark:prose-invert max-w-none space-y-8"> 
           
@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
               <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 28, 2025</p>
             </div>
             
-            {/* 1. Overview Section - UPDATED EMAIL */}
+            {/* 1. Overview Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="overview">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">1. Overview and Responsible Body</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
             
-            {/* 2. Data Collection Section - UPDATED CLOUDFLARE DETAILS */}
+            {/* 2. Data Collection Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="data-collection">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">2. General Data Collection (Server Log Files)</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -84,27 +84,9 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Data Processing Agreement (DPA):</strong> We maintain a DPA with Netlify that includes Standard Contractual Clauses (SCCs) to ensure GDPR compliance.</li>
                 <li><strong>Netlify Privacy Policy:</strong> <a href="https://www.netlify.com/privacy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/privacy/</a></li>
               </ul>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Cloudflare Security & DPA Details</h3>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We use Cloudflare for security and performance optimization. Cloudflare sets essential security cookies and processes your IP address for security purposes.
-              </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Provider:</strong> Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA.</li>
-                <li><strong>Cloudflare Data Processing Agreement:</strong>
-                  <ul className="list-circle list-outside pl-5 space-y-1 mt-1">
-                    <li><strong>DPA Version:</strong> Cloudflare Data Processing Addendum v6.3 (effective June 19, 2025)</li>
-                    <li><strong>Transfer Mechanism:</strong> EU-US Data Privacy Framework (Cloudflare is certified)</li>
-                    <li><strong>Alternative Safeguards:</strong> Standard Contractual Clauses (Module Two)</li>
-                    <li><strong>Data Processed:</strong> IP address for security and bot protection</li>
-                    <li><strong>Location:</strong> Your IP is processed in Cloudflare's global network including US servers</li>
-                  </ul>
-                </li>
-                <li><strong>Cloudflare Privacy Policy:</strong> <a href="https://www.cloudflare.com/privacypolicy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.cloudflare.com/privacypolicy/</a></li>
-              </ul>
             </section>
             
-            {/* 3. Database Hosting Section - UPDATED WITH SUB-PROCESSORS */}
+            {/* 3. Database Hosting Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="database-hosting">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">3. Database Hosting (Supabase)</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -133,14 +115,25 @@ export default function PrivacyPolicyPage() {
               </ul>
             </section>
             
-            {/* 4. Cookies Section - COMPLETELY REWRITTEN */}
+            {/* 4. Cookies Section - UPDATED WITH PRIOR BLOCKING & CORRECTED LEGAL BASIS */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="cookies">
-              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">4. Cookies</h2>
+              <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">4. Cookies and Prior Blocking</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Our website utilizes only essential cookies—small text files stored on your device—that are required for the site to function properly and securely.
+                We use a single essential cookie to store your consent preference. We implement <strong>prior blocking</strong> to ensure no non-essential cookies are set before you provide consent.
               </p>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Essential Cookies We Use</h3>
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Prior Blocking Implementation</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                To comply with GDPR Article 5 and ePrivacy Directive requirements:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Technical Blocking:</strong> All cookie-setting scripts are blocked until explicit consent is obtained</li>
+                <li><strong>Equal Consent Options:</strong> "Accept all" and "Reject all" buttons have equal visual prominence</li>
+                <li><strong>No Pre-Consent Cookies:</strong> No analytics, tracking, or preference cookies are set before consent</li>
+                <li><strong>Withdrawal Mechanism:</strong> You can withdraw consent at any time by clearing browser cookies</li>
+              </ul>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Cookies We Use</h3>
               
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
@@ -159,49 +152,11 @@ export default function PrivacyPolicyPage() {
                         Duration
                       </th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                        Type
+                        Legal Basis
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-gray-900 divide-y divide-border-light dark:divide-border-dark">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        __cf_bm
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Cloudflare
-                      </td>
-                      <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Bot protection & security
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        30 minutes
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          Essential
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
-                        __cflb
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        Cloudflare
-                      </td>
-                      <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Load balancing & security
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
-                        1 day
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          Essential
-                        </span>
-                      </td>
-                    </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
                         cv_cookie
@@ -210,42 +165,100 @@ export default function PrivacyPolicyPage() {
                         TalentVaults
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Stores your cookie preference acknowledgment
+                        Stores consent preferences (acceptance) to demonstrate GDPR compliance and avoid repeated banners
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
                         1 year
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          Essential
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          Consent (Art. 6(1)(a) GDPR)
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
+                        cv_rejection
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        TalentVaults
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
+                        Stores rejection decision to prevent banner reappearing and demonstrate GDPR compliance
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        1 year
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          Consent (Art. 6(1)(a) GDPR)
                         </span>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Informational Banner</h3>
+
+              {/* NEW SUBSECTION: Technical consent logs and local storage */}
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Technical consent logs and local storage</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We display a simple informational banner to notify you about our use of essential cookies. This banner does not require consent as the cookies used are strictly necessary for the website's operation and security.
+                In connection with our cookie banner, we also use minimal technical logs and browser storage (for example, cookies and local storage) to record how the consent interface behaves on your device. These records may include the type of event (for example, that the page loaded or that a cookie was blocked), your current consent status (accepted or rejected), which essential cookies are present, basic device and browser information (such as user‑agent string), and a timestamp of the action.
+              </p>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We use this information solely to (i) ensure that your cookie choices are correctly applied, (ii) prevent the banner from reappearing unnecessarily, and (iii) troubleshoot technical or accessibility issues with the consent interface. The legal basis for this processing is our legitimate interest in providing a secure and compliant website and in being able to demonstrate and technically enforce your choices (Art. 6(1)(f) GDPR). These technical logs are kept only for as long as necessary for these purposes and are not used for marketing, profiling, or cross‑site tracking.
+              </p>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Consent Banner</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                We display a GDPR-compliant consent banner with equal "Accept all" and "Reject all" options. This banner appears before any non-essential processing occurs.
               </p>
               
               <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Managing Your Cookies</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Since we only use essential cookies, no consent management is required. However, you can disable cookies entirely in your browser settings:
+                You can manage cookies at any time:
               </p>
               <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 <li><strong>Chrome:</strong> Settings → Privacy and security → Cookies and other site data</li>
                 <li><strong>Firefox:</strong> Preferences → Privacy & Security → Cookies and Site Data</li>
                 <li><strong>Safari:</strong> Preferences → Privacy → Cookies and website data</li>
                 <li><strong>Edge:</strong> Settings → Cookies and site permissions → Cookies and site data</li>
+                <li><strong>Withdraw Consent:</strong> Clear browser cookies or contact info@talentvaults.com</li>
               </ul>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
-                <strong>Note:</strong> Disabling essential cookies may impair website functionality and security features.
+                <strong>Note:</strong> Disabling essential cookies may impair website functionality.
+              </p>
+
+              {/* Server-Side Consent Event Logging Subsection */}
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Server-Side Consent Event Logging</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                When you make a cookie decision, we log the following server-side to demonstrate GDPR compliance:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Event type:</strong> "consent_accepted" or "consent_rejected"</li>
+                <li><strong>Button clicked:</strong> "Accept all" or "Reject all"</li>
+                <li><strong>Timestamp:</strong> ISO format date and time of the decision</li>
+                <li><strong>Legal basis:</strong> Art. 6(1)(a) GDPR (Consent)</li>
+                <li><strong>Additional notes:</strong> Description of the action taken</li>
+              </ul>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Purpose:</strong> Demonstrate GDPR compliance, maintain audit logs for regulatory requirements, and provide evidence of user consent decisions.
+              </p>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Retention:</strong> 3 years (standard regulatory requirement for audit logs), then automatically deleted.
+              </p>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Legal Basis:</strong> Art. 6(1)(f) GDPR (Legitimate Interest in compliance, audit trail, and dispute defense).
+              </p>
+              
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <strong>Your Rights:</strong> You have the right to access, request deletion, or object to this logging. To exercise these rights, contact info@talentvaults.com. We will respond within 30 days.
               </p>
             </section>
             
-            {/* 5. Affiliate Links Section - UPDATED WITH DISCLOSURE & LEGAL BASIS */}
+            {/* 5. Affiliate Links Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="affiliate">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">5. Affiliate Links and Partner Redirection</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -304,7 +317,7 @@ export default function PrivacyPolicyPage() {
               </ul>
             </section>
             
-            {/* 6. Data Retention Section - NEW */}
+            {/* 6. Data Retention Section - UPDATED WITH CORRECTED LEGAL BASIS */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="retention">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">6. Data Retention Schedule</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -346,20 +359,6 @@ export default function PrivacyPolicyPage() {
                     </tr>
                     <tr>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Cloudflare security cookies
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Cloudflare
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        30 min (__cf_bm), 1 day (__cflb)
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Essential for security
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
                         Cookie preference (cv_cookie)
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
@@ -369,7 +368,35 @@ export default function PrivacyPolicyPage() {
                         1 year
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Legitimate interest
+                        <strong>Consent</strong> (Article 6(1)(a) GDPR)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Rejection cookie (cv_rejection)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        TalentVaults
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        1 year
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        <strong>Consent</strong> (Article 6(1)(a) GDPR)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Consent event logs
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        TalentVaults
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        3 years
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Legitimate interest (compliance)
                       </td>
                     </tr>
                     <tr>
@@ -421,8 +448,8 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Right to Erasure (Art. 17 GDPR):</strong> Request deletion of your personal data ("right to be forgotten").</li>
                 <li><strong>Right to Restrict Processing (Art. 18 GDPR):</strong> Request temporary restriction of processing in certain circumstances.</li>
                 <li><strong>Right to Data Portability (Art. 20 GDPR):</strong> Receive your data in a structured, machine-readable format.</li>
-                <li><strong>Right to Object (Art. 21 GDPR):</strong> Object to processing based on legitimate interest, including affiliate tracking. Submit objections to info@talentvaults.com.</li>
-                <li><strong>Right to Withdraw Consent (Art. 7(3) GDPR):</strong> Withdraw previously given consent at any time.</li>
+                <li><strong>Right to Object (Art. 21 GDPR):</strong> Object to processing based on legitimate interest, including affiliate tracking and consent event logging. Submit objections to info@talentvaults.com.</li>
+                <li><strong>Right to Withdraw Consent (Art. 7(3) GDPR):</strong> Withdraw previously given consent at any time, including cookie consent.</li>
               </ul>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 To exercise these rights, please contact us at: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
@@ -435,7 +462,7 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
             
-            {/* 8. Sub-Processors Section - NEW */}
+            {/* 8. Sub-Processors Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="subprocessors">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">8. Sub-Processors & Change Notifications</h2>
               
@@ -491,20 +518,6 @@ export default function PrivacyPolicyPage() {
                         Ireland (primary), USA (logs)
                       </td>
                     </tr>
-                    <tr>
-                      <td className="px-4 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                        Cloudflare, Inc.
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Security & performance
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Various infrastructure partners
-                      </td>
-                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Global (with DPF certification)
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -534,14 +547,13 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 <li>Netlify: <a href="https://www.netlify.com/gdpr/subprocessors/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/gdpr/subprocessors/</a></li>
                 <li>Supabase: <a href="https://supabase.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></li>
-                <li>Cloudflare: <a href="https://www.cloudflare.com/gdpr/subprocessors/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.cloudflare.com/gdpr/subprocessors/</a></li>
               </ul>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-2">
                 Users can request the full current sub-processor list by emailing info@talentvaults.com.
               </p>
             </section>
             
-            {/* 9. Breach Notification Section - NEW */}
+            {/* 9. Breach Notification Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="breaches">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">9. Data Breach Notification Procedure</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -583,7 +595,7 @@ export default function PrivacyPolicyPage() {
               </div>
             </section>
             
-            {/* 10. Right to Complain Section - UPDATED */}
+            {/* 10. Right to Complain Section */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="complaints">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">10. Right to Complain</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -609,41 +621,52 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
             
-            {/* 11. International Residents Section - UPDATED */}
+            {/* 11. International Residents Section - UPDATED CCPA/CPRA 2025 */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="international">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">11. International Residents</h2>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">For California Residents (CCPA/CPRA)</h3>
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">California Residents (CCPA/CPRA 2025 Updates)</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Effective September 23, 2025, the California Privacy Protection Agency has updated CCPA/CPRA regulations:
+              </p>
+              
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mt-2">
+                <h4 className="text-text-light dark:text-white text-lg font-bold mb-2">⚠️ Sensitive Personal Information Categories (Updated 2025)</h4>
+                <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-sm">
+                  <li><strong>Neural data:</strong> We do not collect neural data from biometric sensors</li>
+                  <li><strong>Minors under 16:</strong> Personal information of consumers under 16 is now classified as sensitive personal information</li>
+                  <li><strong>Children's data:</strong> We do not knowingly collect data from children under 16</li>
+                </ul>
+              </div>
+              
+              <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">Your California Privacy Rights</h4>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 You have the right to:
               </p>
               <ul className="list-disc list-outside pl-5 space-y-1 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Know:</strong> Access all personal data we collect (Right to Know)</li>
-                <li><strong>Delete:</strong> Request deletion of your data (Right to Delete)</li>
-                <li><strong>Correct:</strong> Request correction of inaccurate data (CPRA only)</li>
-                <li><strong>Opt-Out of Sale:</strong> We do NOT currently sell personal information</li>
-                <li><strong>Opt-Out of Sharing:</strong> We do NOT currently share personal information for targeted advertising</li>
+                <li><strong>Know/Access:</strong> Request categories of personal information collected (CCPA §1798.110)</li>
+                <li><strong>Delete:</strong> Request deletion of personal information (CCPA §1798.105)</li>
+                <li><strong>Correct:</strong> Request correction of inaccurate information (CPRA §1798.106)</li>
+                <li><strong>Opt-Out of Sale/Sharing:</strong> We do NOT sell or share personal information</li>
+                <li><strong>Limit Use of SPI:</strong> Limit use of sensitive personal information (CPRA §1798.121)</li>
+                <li><strong>Non-Discrimination:</strong> Not receive discriminatory treatment for exercising rights</li>
               </ul>
-
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mt-4">
-                <strong>How to Exercise Your Rights:</strong><br/>
-                Email: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a><br/>
-                Subject: "CCPA [Right Name] Request"<br/>
-                Include: Your name, email, specific request
-              </p>
-
+              
+              <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">How to Exercise Your Rights</h4>
               <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mt-2">
                 <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed">
-                  <strong>Our Timeline:</strong> We will respond within 45 calendar days (may extend 45 additional days if complex)<br/>
-                  <strong>Verification:</strong> We may request additional information to verify your identity<br/>
-                  <strong>Non-Discrimination:</strong> We will not discriminate against you for exercising your rights
+                  <strong>Email:</strong> <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a><br/>
+                  <strong>Subject:</strong> "CCPA Rights Request - [Your Name]"<br/>
+                  <strong>Required Information:</strong> Full name, email address, specific right being exercised<br/>
+                  <strong>Response Time:</strong> 45 calendar days (may extend 45 additional days with notice)<br/>
+                  <strong>Verification:</strong> We may request additional information to verify your identity
                 </p>
               </div>
-
+              
               <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-4">
-                <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">California "Do Not Sell My Information"</h4>
+                <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">California "Do Not Sell or Share My Personal Information"</h4>
                 <p className="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed">
-                  We do not sell your personal information as defined under CCPA/CPRA. To exercise your California privacy rights or request confirmation that we do not sell your data, email: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
+                  We do not sell or share your personal information as defined under CCPA/CPRA. To exercise your California privacy rights or request confirmation that we do not sell or share your data, email: <a href="mailto:info@talentvaults.com" className="text-primary hover:underline">info@talentvaults.com</a>
                 </p>
               </div>
               
