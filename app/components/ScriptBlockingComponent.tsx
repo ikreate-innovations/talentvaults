@@ -1,4 +1,3 @@
-// app/components/ScriptBlockingComponent.tsx - FIXED VERSION
 'use client';
 
 import { useEffect } from 'react';
@@ -14,8 +13,25 @@ declare global {
   }
 }
 
+// CRITICAL FIX: Check rejection FIRST before checking acceptance
+const fallbackHasRejectionCookie = (): boolean => {
+  try {
+    const rejectionCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('cv_rejection='));
+    return !!rejectionCookie;
+  } catch {
+    return false;
+  }
+};
+
 // Fallback functions in case inline script didn't load
 const fallbackHasValidConsent = (): boolean => {
+  // CRITICAL: If rejection exists, NEVER return true for consent
+  if (fallbackHasRejectionCookie()) {
+    return false;
+  }
+  
   try {
     const cvCookie = document.cookie
       .split('; ')
@@ -43,18 +59,6 @@ const fallbackHasValidConsent = (): boolean => {
     return false;
   } catch (error) {
     console.error('Error checking cookie consent:', error);
-    return false;
-  }
-};
-
-// Fallback check if user has rejected
-const fallbackHasRejectionCookie = (): boolean => {
-  try {
-    const rejectionCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('cv_rejection='));
-    return !!rejectionCookie;
-  } catch {
     return false;
   }
 };
@@ -94,10 +98,21 @@ export default function ScriptBlockingComponent() {
       }
     };
     
+    // CRITICAL FIX: Always check rejection first
+    const shouldUnblockScripts = (): boolean => {
+      // If user rejected, NEVER unblock
+      if (utils.hasRejectionCookie()) {
+        return false;
+      }
+      
+      // Only unblock if user accepted
+      return utils.hasValidConsent();
+    };
+    
     // Function to unblock all scripts (inline-blocked + cookieconsent-blocked)
     const unblockAllScripts = () => {
-      if (!utils.hasValidConsent()) {
-        console.log('⚠️ Scripts remain blocked - user has not consented');
+      if (!shouldUnblockScripts()) {
+        console.log('⚠️ Scripts remain blocked - user rejected or no consent');
         return;
       }
 
@@ -144,18 +159,20 @@ export default function ScriptBlockingComponent() {
       const hasConsent = utils.hasValidConsent();
       const hasRejected = utils.hasRejectionCookie();
       
-      if (hasConsent && !hasRejected) {
+      if (hasRejected) {
+        console.log('❌ Initial check: User rejected - scripts remain blocked');
+        document.body.setAttribute('data-cookie-consent', 'rejected');
+      } else if (hasConsent) {
         console.log('✅ Initial check: User has valid consent');
         // Small delay to ensure inline script is ready
         setTimeout(unblockAllScripts, 50);
-      } else if (hasRejected) {
-        console.log('❌ Initial check: User rejected - scripts remain blocked');
       } else {
         console.log('⏳ Initial check: User has not decided - scripts remain blocked');
+        document.body.setAttribute('data-cookie-consent', 'undecided');
       }
     };
     
-    // 🟢 FIXED: Listen for consent acceptance with validation
+    // Listen for consent acceptance
     const handleConsentAccepted = () => {
       console.log('🔄 Consent acceptance handler triggered');
       
@@ -164,11 +181,16 @@ export default function ScriptBlockingComponent() {
         const hasConsent = utils.hasValidConsent();
         const hasRejected = utils.hasRejectionCookie();
         
-        if (hasConsent && !hasRejected) {
+        if (hasRejected) {
+          console.log('🛑 Cannot accept - user already rejected');
+          return;
+        }
+        
+        if (hasConsent) {
           console.log('✅ Validation passed - unblocking scripts');
           unblockAllScripts();
         } else {
-          console.log(`❓ Validation failed: hasConsent=${hasConsent}, hasRejected=${hasRejected}`);
+          console.log('⚠️ Validation failed - no valid consent');
         }
       }, 50);
     };
@@ -176,36 +198,38 @@ export default function ScriptBlockingComponent() {
     // Listen for consent rejection
     const handleConsentRejected = () => {
       console.log('🔄 Consent rejection event received - ensuring scripts remain blocked');
-      // Double-check that scripts are blocked
       const hasRejected = utils.hasRejectionCookie();
       if (hasRejected) {
         console.log('✅ Confirmed: User rejected - all scripts blocked');
+        document.body.setAttribute('data-cookie-consent', 'rejected');
       }
     };
     
-    // 🟢 FIXED: Safe wrapper for library events with validation
+    // Safe wrapper for library events with validation
     const validateAndHandleLibraryConsent = () => {
       console.log('🔄 Library consent event received');
       
-      // Wait 100ms for state to settle, then validate
       setTimeout(() => {
         const hasConsent = utils.hasValidConsent();
         const hasRejected = utils.hasRejectionCookie();
         
         console.log(`📊 Event validation: hasConsent=${hasConsent}, hasRejected=${hasRejected}`);
         
-        if (hasConsent && !hasRejected) {
+        if (hasRejected) {
+          console.log('🛑 Event ignored - user has rejected');
+          return;
+        }
+        
+        if (hasConsent) {
           console.log('✅ Valid consent confirmed - unblocking scripts');
           handleConsentAccepted();
-        } else if (hasRejected) {
-          console.log('🛑 Event ignored - user has rejected');
         } else {
-          console.log('⚠️ Event received but state unclear - not unblocking');
+          console.log('⚠️ Event received but no valid consent');
         }
       }, 100);
     };
     
-    // 🟢 FIXED: Safe wrapper for library change events
+    // Safe wrapper for library change events
     const validateAndHandleLibraryChange = (e: any) => {
       console.log('🔄 Library change event:', e);
       
@@ -213,13 +237,16 @@ export default function ScriptBlockingComponent() {
         const hasConsent = utils.hasValidConsent();
         const hasRejected = utils.hasRejectionCookie();
         
-        if (hasConsent && !hasRejected) {
+        if (hasRejected) {
+          console.log('🛑 Change ignored - user rejected');
+          return;
+        }
+        
+        if (hasConsent) {
           console.log('✅ Change resulted in valid consent');
           handleConsentAccepted();
-        } else if (hasRejected) {
-          console.log('🛑 Change resulted in rejection');
         } else {
-          console.log('⚠️ Change event - state unclear');
+          console.log('⚠️ Change event - no valid consent');
         }
       }, 100);
     };
@@ -235,7 +262,7 @@ export default function ScriptBlockingComponent() {
     window.addEventListener('cookie-consent-accepted', handleConsentAccepted);
     window.addEventListener('cookie-consent-rejected', handleConsentRejected);
     
-    // 🟢 FIXED: Listen for library events but VALIDATE before acting
+    // Listen for library events but VALIDATE before acting
     window.addEventListener('cc:onConsent', validateAndHandleLibraryConsent);
     window.addEventListener('cc:onChange', validateAndHandleLibraryChange);
     window.addEventListener('cc:onReject', handleConsentRejected);

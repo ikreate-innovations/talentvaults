@@ -196,18 +196,14 @@ const logConsentToServer = (data: any) => {
 let preferencesModalWasOpened = false;
 
 // ====================
-// CRITICAL: Should we initialize the library?
+// CRITICAL FIX #1: Should we initialize the library? (REINFORCED)
 // ====================
 const shouldInitializeLibrary = (): boolean => {
   try {
-    // Check if we already have a proper rejection cookie
-    const rejectionCookie = getCookieValue('cv_rejection');
-    if (rejectionCookie) {
-      const data = JSON.parse(rejectionCookie);
-      if (data.rejected === true) {
-        console.log('🛑 Library initialization prevented - user has rejected');
-        return false;
-      }
+    // CRITICAL FIX: If cv_rejection exists, NEVER initialize library
+    if (hasRejectionCookie()) {
+      console.log('🛑 Library initialization BLOCKED - cv_rejection exists');
+      return false;
     }
     return true;
   } catch {
@@ -232,12 +228,13 @@ const getLibraryConfiguration = (userDecision: string) => {
     autoShowPreferences: false,
 
     // ====================
-    // CRITICAL FIX: CATEGORIES CONFIGURATION
+    // CRITICAL FIX #2: CATEGORIES CONFIGURATION
+    // Necessary category is ALWAYS true and readOnly
     // ====================
     categories: {
       necessary: {
-        enabled: userDecision === 'accepted',      // 🟢 ALWAYS TRUE - necessary cookies ARE necessary
-        readOnly: false,     // 🟢 Users can't toggle this
+        enabled: true,      // 🟢 ALWAYS TRUE - never false
+        readOnly: true,     // 🟢 Users CANNOT toggle this
         autoClear: {
           name: 'cv_cookie',
           domain: window.location.hostname,
@@ -348,105 +345,73 @@ export default function CookieConsentClient() {
     if (!isClient) return;
 
     // ====================
-    // CRITICAL: Early Exit for Rejection
+    // CRITICAL FIX #3: Early Exit for Rejection (REINFORCED)
     // ====================
     if (!shouldInitializeLibrary()) {
-      console.log('🛑 Skipping library initialization - user rejected');
+      console.log('🛑 SKIPPING LIBRARY INITIALIZATION - cv_rejection cookie detected');
       document.body.setAttribute('data-cookie-consent', 'rejected');
+      // Make sure cv_cookie doesn't exist if we have rejection
+      if (hasAcceptanceCookie() && hasRejectionCookie()) {
+        console.log('🛑 Conflict: Both cookies exist, deleting cv_cookie');
+        deleteCookie('cv_cookie');
+      }
       return;
     }
 
     // ====================
-    // IDEMPOTENT REJECTION HANDLER
+    // SIMPLIFIED REJECTION HANDLER - ONLY SETS cv_rejection
     // ====================
     const handleRejection = () => {
       // If we already have a rejection cookie, do nothing (idempotent)
       if (hasRejectionCookie()) {
-        console.log('🔁 Rejection already normalized (cv_rejection present)');
+        console.log('🔁 Rejection cookie already exists');
         return;
       }
 
-      console.log('❌ Normalizing to rejection state');
-
-      // Always delete any acceptance cookie
-      if (hasAcceptanceCookie()) {
-        deleteCookie('cv_cookie');
-      }
-
-      // Set minimal rejection cookie
+      console.log('❌ Setting rejection cookie only');
       setRejectionCookie();
-
-      // Mark DOM state
       document.body.setAttribute('data-cookie-consent', 'rejected');
-
-      // Notify blocking component
-      window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
 
       // Hide banner
       if (window.CookieConsent) {
         window.CookieConsent.hide();
       }
 
-      // Optional short safety sweep (200ms delay)
-      setTimeout(() => {
-        if (hasRejectionCookie() && hasAcceptanceCookie()) {
-          console.log('🧹 Post-normalization sweep: found stray cv_cookie, deleting');
-          deleteCookie('cv_cookie');
-        }
-      }, 200);
+      // Notify blocking component
+      window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
 
-      // Log to server with CORRECTED legal basis
+      // Log to server
       logConsentToServer({
         event: 'consent_rejected',
         button_clicked: 'Reject all',
-        note: 'User rejected - cv_rejection cookie set, logs retained 90 days under Art. 6(1)(a) GDPR'
+        note: 'User rejected - cv_rejection cookie set'
       });
     };
 
     // ====================
-    // DETERMINE USER DECISION (with normalization)
+    // CRITICAL FIX #4: SIMPLIFIED DECISION DETERMINATION
     // ====================
     const determineUserDecision = (): 'undecided' | 'accepted' | 'rejected' => {
-      // Use global utility from inline script if available
-      if (window._cookieUtils) {
-        const hasConsent = window._cookieUtils.hasValidConsent();
-        const hasRejection = window._cookieUtils.hasRejectionCookie();
-        
-        if (hasRejection) {
-          console.log('🎯 Decision via inline script: rejected');
-          return 'rejected';
-        }
-        if (hasConsent) {
-          console.log('🎯 Decision via inline script: accepted');
-          return 'accepted';
-        }
-      }
-      
-      // Fallback to original logic
-      // Check explicit rejection cookie first
+      // CRITICAL: Rejection cookie takes ABSOLUTE precedence
       if (hasRejectionCookie()) {
-        console.log('🎯 Decision: rejected (explicit cv_rejection cookie)');
+        console.log('🎯 Decision: rejected (cv_rejection present)');
         return 'rejected';
       }
       
       // Check for acceptance
       if (hasAcceptanceCookie()) {
-        console.log('🎯 Decision: accepted (valid cv_cookie)');
+        console.log('🎯 Decision: accepted (cv_cookie present and valid)');
         return 'accepted';
       }
       
-      // Check if library cookie represents rejection and normalize
+      // CRITICAL FIX: NO NORMALIZATION HERE - only set rejection cookie if needed
       if (hasAnyRejection() && !hasRejectionCookie()) {
-        console.log('🎯 Detected library-style rejection; normalizing to cv_rejection');
-        
-        // One-time normalization
-        deleteCookie('cv_cookie');
+        console.log('🎯 Detected rejection without cv_rejection - setting it now');
         setRejectionCookie();
-        
         return 'rejected';
       }
       
-      console.log('🎯 Decision: undecided (no valid cookies)');
+      console.log('🎯 Decision: undecided (no cookies present)');
       return 'undecided';
     };
 
@@ -454,11 +419,16 @@ export default function CookieConsentClient() {
     console.log(`🎯 Initial user decision: ${userDecision}`);
 
     // ====================
-    // Early exit if rejected
+    // Early exit if rejected (DOUBLE CHECK)
     // ====================
     if (userDecision === 'rejected') {
-      console.log('🛑 User decision is rejected - not initializing library');
+      console.log('🛑 User rejected - NOT initializing library');
       document.body.setAttribute('data-cookie-consent', 'rejected');
+      // Make absolutely sure cv_cookie doesn't exist
+      if (hasAcceptanceCookie()) {
+        console.log('🛑 Found stray cv_cookie - deleting');
+        deleteCookie('cv_cookie');
+      }
       return;
     }
 
@@ -544,12 +514,13 @@ export default function CookieConsentClient() {
           
           preferencesModalWasOpened = false;
           
-          // Delete rejection cookie if exists (user changing mind)
+          // CRITICAL: Delete rejection cookie if exists (user changing mind)
           if (hasRejectionCookie()) {
+            console.log('🔄 User changing mind - deleting rejection cookie');
             deleteCookie('cv_rejection');
           }
           
-          // Set correct cookie structure
+          // Set acceptance cookie
           const acceptanceData = {
             categories: { necessary: true },
             consentTimestamp: new Date().toISOString(),
@@ -559,11 +530,11 @@ export default function CookieConsentClient() {
           const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
           document.cookie = `cv_cookie=${encodeURIComponent(JSON.stringify(acceptanceData))}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax${secureFlag}`;
           
-          // Log the acceptance with CORRECTED legal basis
+          // Log the acceptance
           logConsentToServer({
             event: 'consent_accepted',
             button_clicked: 'Accept all',
-            note: 'User accepted - cv_cookie set, logs retained 90 days under Art. 6(1)(a) GDPR'
+            note: 'User accepted - cv_cookie set'
           });
 
           document.body.setAttribute('data-cookie-consent', 'accepted');
@@ -584,30 +555,33 @@ export default function CookieConsentClient() {
           }
         },
 
+        // ====================
+        // CRITICAL FIX #5: onReject handler - ONLY PLACE that deletes cv_cookie
+        // ====================
         onReject: ({ cookie }: any) => {
-          console.log('❌ Consent rejected via onReject');
+          console.log('❌ Consent rejected via onReject - THIS IS THE ONLY PLACE cv_cookie IS DELETED');
           
-          // Set rejection cookie
+          // 1. Set rejection cookie
           setRejectionCookie();
           
-          // Delete acceptance cookie
+          // 2. CRITICAL: Delete acceptance cookie (ONLY HERE)
           deleteCookie('cv_cookie');
           
-          // Log the rejection
+          // 3. Log the rejection
           logConsentToServer({
             event: 'consent_rejected',
             button_clicked: 'Reject all',
-            note: 'User rejected - cv_rejection set'
+            note: 'User rejected - cv_rejection set, cv_cookie deleted'
           });
 
           document.body.setAttribute('data-cookie-consent', 'rejected');
           
-          // Hide banner
+          // 4. Hide banner
           if (window.CookieConsent) {
             window.CookieConsent.hide();
           }
           
-          // Dispatch event for ScriptBlockingComponent
+          // 5. Dispatch event for ScriptBlockingComponent
           window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
         },
 
@@ -620,15 +594,11 @@ export default function CookieConsentClient() {
             return;
           }
           
-          // If categories changed to empty, treat as rejection
+          // CRITICAL FIX #6: REMOVED cv_cookie deletion here
+          // We rely ONLY on onReject to delete cv_cookie
           if (cookie && Array.isArray(cookie.categories) && cookie.categories.length === 0) {
-            console.log('✅ onChange detected empty categories - treating as rejection');
-            setRejectionCookie();
-            deleteCookie('cv_cookie');
-            document.body.setAttribute('data-cookie-consent', 'rejected');
-            if (window.CookieConsent) {
-              window.CookieConsent.hide();
-            }
+            console.log('✅ onChange detected empty categories - calling handleRejection');
+            handleRejection(); // This ONLY sets cv_rejection, doesn't touch cv_cookie
           }
         },
         
