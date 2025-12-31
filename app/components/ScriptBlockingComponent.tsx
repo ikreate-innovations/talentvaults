@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect } from 'react';
@@ -26,7 +25,7 @@ const fallbackHasRejectionCookie = (): boolean => {
   }
 };
 
-// Fallback functions in case inline script didn't load
+// UPDATED: Fallback function to check for valid consent - now checks for fullAcceptance flag
 const fallbackHasValidConsent = (): boolean => {
   // CRITICAL: If rejection exists, NEVER return true for consent
   if (fallbackHasRejectionCookie()) {
@@ -41,14 +40,22 @@ const fallbackHasValidConsent = (): boolean => {
 
     const cookieData = JSON.parse(decodeURIComponent(cvCookie.split('=')[1]));
 
-    // Check for new structure: categories as object with necessary: true
+    // UPDATED: Check for fullAcceptance flag (set when user clicks "Accept all")
+    if (cookieData && cookieData.fullAcceptance === true) {
+      return true;
+    }
+
+    // OLD LOGIC (for backward compatibility): Check for old structure
     if (cookieData && cookieData.categories) {
       if (typeof cookieData.categories === 'object' && cookieData.categories.necessary === true) {
-        return true;
+        // This could be either "Accept all" (with fullAcceptance) or "Reject all" (without fullAcceptance)
+        // Since we don't have fullAcceptance flag, be conservative and return false
+        return false;
       }
       // Check for old array format
       if (Array.isArray(cookieData.categories) && cookieData.categories.includes('necessary')) {
-        return true;
+        // This is the library's "accept necessary only" format (which we treat as rejection)
+        return false;
       }
     }
 
@@ -106,7 +113,7 @@ export default function ScriptBlockingComponent() {
         return false;
       }
       
-      // Only unblock if user accepted
+      // Only unblock if user accepted with fullAcceptance flag
       return utils.hasValidConsent();
     };
     
@@ -117,7 +124,7 @@ export default function ScriptBlockingComponent() {
         return;
       }
 
-      console.log('✅ User has valid consent - unblocking all scripts');
+      console.log('✅ User has valid consent (fullAcceptance) - unblocking all scripts');
       
       // 1. Unblock scripts blocked by inline script (highest priority)
       if (utils.unblockScripts) {
@@ -160,15 +167,17 @@ export default function ScriptBlockingComponent() {
       const hasConsent = utils.hasValidConsent();
       const hasRejected = utils.hasRejectionCookie();
       
+      console.log(`📊 Initial check: hasConsent=${hasConsent}, hasRejected=${hasRejected}`);
+      
       if (hasRejected) {
         console.log('❌ Initial check: User rejected - scripts remain blocked');
         document.body.setAttribute('data-cookie-consent', 'rejected');
       } else if (hasConsent) {
-        console.log('✅ Initial check: User has valid consent');
+        console.log('✅ Initial check: User has valid consent (fullAcceptance)');
         // Small delay to ensure inline script is ready
         setTimeout(unblockAllScripts, 50);
       } else {
-        console.log('⏳ Initial check: User has not decided - scripts remain blocked');
+        console.log('⏳ Initial check: User has not decided OR only accepted necessary (no fullAcceptance) - scripts remain blocked');
         document.body.setAttribute('data-cookie-consent', 'undecided');
       }
     };
@@ -182,16 +191,18 @@ export default function ScriptBlockingComponent() {
         const hasConsent = utils.hasValidConsent();
         const hasRejected = utils.hasRejectionCookie();
         
+        console.log(`📊 Validation: hasConsent=${hasConsent}, hasRejected=${hasRejected}`);
+        
         if (hasRejected) {
           console.log('🛑 Cannot accept - user already rejected');
           return;
         }
         
         if (hasConsent) {
-          console.log('✅ Validation passed - unblocking scripts');
+          console.log('✅ Validation passed - user has fullAcceptance, unblocking scripts');
           unblockAllScripts();
         } else {
-          console.log('⚠️ Validation failed - no valid consent');
+          console.log('⚠️ Validation failed - no valid consent (missing fullAcceptance flag)');
         }
       }, 50);
     };
@@ -222,10 +233,10 @@ export default function ScriptBlockingComponent() {
         }
         
         if (hasConsent) {
-          console.log('✅ Valid consent confirmed - unblocking scripts');
+          console.log('✅ Valid consent confirmed (fullAcceptance) - unblocking scripts');
           handleConsentAccepted();
         } else {
-          console.log('⚠️ Event received but no valid consent');
+          console.log('⚠️ Event received but no valid consent (missing fullAcceptance flag)');
         }
       }, 100);
     };
@@ -244,10 +255,10 @@ export default function ScriptBlockingComponent() {
         }
         
         if (hasConsent) {
-          console.log('✅ Change resulted in valid consent');
+          console.log('✅ Change resulted in valid consent (fullAcceptance)');
           handleConsentAccepted();
         } else {
-          console.log('⚠️ Change event - no valid consent');
+          console.log('⚠️ Change event - no valid consent (missing fullAcceptance flag)');
         }
       }, 100);
     };

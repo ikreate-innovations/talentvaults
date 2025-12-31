@@ -58,7 +58,12 @@ const hasAcceptanceCookie = (): boolean => {
     const cookieData = JSON.parse(cvCookie);
 
     // Check for acceptance structure - must have categories with necessary=true
+    // AND we should have a specific flag for full acceptance
     if (cookieData && cookieData.categories) {
+      // Check if this is a "full acceptance" cookie (not just necessary)
+      if (cookieData.fullAcceptance === true) {
+        return true;
+      }
       if (typeof cookieData.categories === 'object' && cookieData.categories.necessary === true) {
         return true;
       }
@@ -213,7 +218,6 @@ const getLibraryConfiguration = (userDecision: string) => {
 
     // ====================
     // CRITICAL FIX #2: CATEGORIES CONFIGURATION
-    // Necessary category is ALWAYS true and readOnly
     // ====================
     categories: {
       necessary: {
@@ -228,7 +232,7 @@ const getLibraryConfiguration = (userDecision: string) => {
     },
 
     // ====================
-    // GUI OPTIONS - IMPORTANT CHANGE: Use only Accept/Reject buttons
+    // GUI OPTIONS
     // ====================
     guiOptions: {
       consentModal: {
@@ -236,7 +240,7 @@ const getLibraryConfiguration = (userDecision: string) => {
         position: 'bottom center',
         equalWeightButtons: true,
         flipButtons: false,
-        // REMOVED: acceptNecessaryBtn - we'll handle rejection differently
+        showPreferencesButton: false
       },
       preferencesModal: {
         layout: 'box',
@@ -247,7 +251,7 @@ const getLibraryConfiguration = (userDecision: string) => {
     },
 
     // ====================
-    // LANGUAGE - UPDATED: Only Accept/Reject buttons
+    // LANGUAGE - Use acceptNecessaryBtn as "Reject all" conceptually
     // ====================
     language: {
       default: 'en',
@@ -257,7 +261,7 @@ const getLibraryConfiguration = (userDecision: string) => {
             title: 'Cookie Consent',
             description: 'We use essential cookies to remember your preferences and to demonstrate compliance with data protection law. No tracking, analytics, or marketing cookies are used. Learn more in our <a href="/legal/privacy" class="text-primary hover:underline" target="_blank">Privacy Policy</a>.',
             acceptAllBtn: 'Accept all',
-            rejectAllBtn: 'Reject all', // CHANGED: From acceptNecessaryBtn to rejectAllBtn
+            acceptNecessaryBtn: 'Reject all', // This triggers "accept necessary only"
           },
           preferencesModal: {
             title: 'Cookie Preferences',
@@ -471,57 +475,6 @@ export default function CookieConsentClient() {
     };
 
     // ====================
-    // CRITICAL FIX #5: Custom button handler for "Reject all"
-    // ====================
-    const setupRejectAllButtonHandler = () => {
-      // Wait for the banner to be created
-      setTimeout(() => {
-        const rejectButton = document.querySelector('.cc-reject-all');
-        if (rejectButton) {
-          console.log('🎯 Found Reject All button, adding custom handler');
-          
-          // Remove any existing click handlers
-          const newRejectButton = rejectButton.cloneNode(true);
-          rejectButton.parentNode?.replaceChild(newRejectButton, rejectButton);
-          
-          // Add our custom handler
-          newRejectButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('🎯 Custom Reject All handler triggered');
-            
-            // 1. Set rejection cookie
-            setRejectionCookie();
-            
-            // 2. Delete any acceptance cookie
-            deleteCookie('cv_cookie');
-            
-            // 3. Hide the banner using library's method
-            if (window.CookieConsent) {
-              window.CookieConsent.hide();
-            }
-            
-            // 4. Log the rejection
-            logConsentToServer({
-              event: 'consent_rejected',
-              button_clicked: 'Reject all',
-              note: 'User rejected via custom handler - cv_rejection set, cv_cookie deleted'
-            });
-
-            // 5. Update DOM attribute
-            document.body.setAttribute('data-cookie-consent', 'rejected');
-            
-            // 6. Dispatch event for ScriptBlockingComponent
-            window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
-            
-            return false;
-          });
-        }
-      }, 500); // Give time for banner to render
-    };
-
-    // ====================
     // LIBRARY INITIALIZATION (Only if needed)
     // ====================
     const initializeWhenReady = () => {
@@ -545,6 +498,43 @@ export default function CookieConsentClient() {
         },
 
         onAccept: ({ cookie }: any) => {
+          console.log('📝 onAccept called with cookie:', cookie);
+          
+          // DETECT if this is "Reject all" (accept necessary only) vs "Accept all"
+          // The library doesn't tell us which button was clicked, so we need to infer
+          
+          // Check if this is "accept necessary only" (which is our "Reject all")
+          const isRejectAll = cookie && 
+            ((Array.isArray(cookie.categories) && cookie.categories.length === 1 && cookie.categories[0] === 'necessary') ||
+             (typeof cookie.categories === 'object' && cookie.categories.necessary === true && Object.keys(cookie.categories).length === 1));
+          
+          if (isRejectAll) {
+            console.log('🎯 Detected "Reject all" (accept necessary only)');
+            
+            // This is actually rejection in our system
+            setRejectionCookie();
+            deleteCookie('cv_cookie');
+            
+            logConsentToServer({
+              event: 'consent_rejected',
+              button_clicked: 'Reject all',
+              note: 'User rejected (via acceptNecessaryBtn) - cv_rejection set, cv_cookie deleted'
+            });
+
+            document.body.setAttribute('data-cookie-consent', 'rejected');
+            
+            // Hide banner
+            if (window.CookieConsent) {
+              window.CookieConsent.hide();
+            }
+            
+            // Dispatch event for ScriptBlockingComponent
+            window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
+            
+            return; // Don't proceed with acceptance logic
+          }
+          
+          // If we get here, it's a true "Accept all"
           console.log('📝 Consent accepted - setting cv_cookie');
           
           preferencesModalWasOpened = false;
@@ -555,9 +545,10 @@ export default function CookieConsentClient() {
             deleteCookie('cv_rejection');
           }
           
-          // Set acceptance cookie
+          // Set acceptance cookie with full acceptance flag
           const acceptanceData = {
             categories: { necessary: true },
+            fullAcceptance: true, // Mark this as full acceptance
             consentTimestamp: new Date().toISOString(),
             revision: 0
           };
@@ -569,7 +560,7 @@ export default function CookieConsentClient() {
           logConsentToServer({
             event: 'consent_accepted',
             button_clicked: 'Accept all',
-            note: 'User accepted - cv_cookie set'
+            note: 'User accepted - cv_cookie set with fullAcceptance flag'
           });
 
           document.body.setAttribute('data-cookie-consent', 'accepted');
@@ -591,10 +582,10 @@ export default function CookieConsentClient() {
         },
 
         // ====================
-        // CRITICAL FIX #6: onReject handler - This should now be called by the rejectAllBtn
+        // CRITICAL FIX #5: onReject handler - Handle preferences modal rejection
         // ====================
         onReject: ({ cookie }: any) => {
-          console.log('❌ Consent rejected via onReject');
+          console.log('❌ Consent rejected via onReject (from preferences modal)');
           
           // 1. Set rejection cookie
           setRejectionCookie();
@@ -606,7 +597,7 @@ export default function CookieConsentClient() {
           logConsentToServer({
             event: 'consent_rejected',
             button_clicked: 'Reject all',
-            note: 'User rejected - cv_rejection set, cv_cookie deleted'
+            note: 'User rejected via preferences modal - cv_rejection set, cv_cookie deleted'
           });
 
           document.body.setAttribute('data-cookie-consent', 'rejected');
@@ -629,7 +620,7 @@ export default function CookieConsentClient() {
             return;
           }
           
-          // CRITICAL FIX #7: Handle empty categories as rejection
+          // CRITICAL FIX #6: Handle empty categories as rejection
           if (cookie && Array.isArray(cookie.categories) && cookie.categories.length === 0) {
             console.log('✅ onChange detected empty categories - calling handleRejection');
             handleRejection();
@@ -658,9 +649,6 @@ export default function CookieConsentClient() {
       setTimeout(() => {
         setupPreferencesObserver();
       }, 100);
-      
-      // Set up custom reject button handler
-      setupRejectAllButtonHandler();
       
       // Expose showPreferences globally for manual triggering
       window.showCookiePreferences = () => {
@@ -726,6 +714,7 @@ export default function CookieConsentClient() {
                   <button onclick="
                     document.cookie = 'cv_cookie=' + encodeURIComponent(JSON.stringify({
                       categories: { necessary: true },
+                      fullAcceptance: true,
                       consentTimestamp: new Date().toISOString()
                     })) + '; path=/; max-age=31536000; SameSite=Lax${secureFlag}';
                     document.cookie = 'cv_rejection=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
