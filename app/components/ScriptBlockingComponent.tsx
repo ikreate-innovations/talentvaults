@@ -1,10 +1,21 @@
-// app/components/ScriptBlockingComponent.tsx - WITH IMMEDIATE UNBLOCKING
+// app/components/ScriptBlockingComponent.tsx - OPTIMIZED FOR INLINE BLOCKING
 'use client';
 
 import { useEffect } from 'react';
 
-// Consistent consent checking function (matches CookieConsentClient)
-const hasValidConsent = (): boolean => {
+// Declare global utility functions from inline script
+declare global {
+  interface Window {
+    _cookieUtils?: {
+      hasValidConsent: () => boolean;
+      hasRejectionCookie: () => boolean;
+      unblockScripts: () => void;
+    };
+  }
+}
+
+// Fallback functions in case inline script didn't load
+const fallbackHasValidConsent = (): boolean => {
   try {
     const cvCookie = document.cookie
       .split('; ')
@@ -36,8 +47,8 @@ const hasValidConsent = (): boolean => {
   }
 };
 
-// Check if user has rejected (for logging purposes)
-const hasRejectionCookie = (): boolean => {
+// Fallback check if user has rejected
+const fallbackHasRejectionCookie = (): boolean => {
   try {
     const rejectionCookie = document.cookie
       .split('; ')
@@ -50,98 +61,156 @@ const hasRejectionCookie = (): boolean => {
 
 export default function ScriptBlockingComponent() {
   useEffect(() => {
-    // Function to unblock scripts after consent
-    const unblockScripts = () => {
-      if (!hasValidConsent()) {
+    // Use global functions or fallbacks
+    const utils = window._cookieUtils || {
+      hasValidConsent: fallbackHasValidConsent,
+      hasRejectionCookie: fallbackHasRejectionCookie,
+      unblockScripts: () => {
+        console.log('⚠️ No unblock function available - using fallback');
+        // Fallback: unblock cookieconsent-blocked scripts
+        const blockedScripts = document.querySelectorAll(
+          'script[data-cookieconsent][type="text/plain"]'
+        );
+        
+        blockedScripts.forEach(script => {
+          const consentCategory = script.getAttribute('data-cookieconsent');
+          const originalSrc = script.getAttribute('data-src');
+          
+          if (consentCategory === 'necessary' && originalSrc) {
+            const newScript = document.createElement('script');
+            newScript.src = originalSrc;
+            
+            // Copy all attributes except blocking ones
+            Array.from(script.attributes).forEach(attr => {
+              if (!['type', 'data-cookieconsent', 'data-src', 'data-name'].includes(attr.name)) {
+                newScript.setAttribute(attr.name, attr.value);
+              }
+            });
+            
+            script.parentNode?.insertBefore(newScript, script);
+            script.remove();
+          }
+        });
+      }
+    };
+    
+    // Function to unblock all scripts (inline-blocked + cookieconsent-blocked)
+    const unblockAllScripts = () => {
+      if (!utils.hasValidConsent()) {
         console.log('⚠️ Scripts remain blocked - user has not consented');
         return;
       }
 
-      // Find all blocked scripts
-      const blockedScripts = document.querySelectorAll(
+      console.log('✅ User has valid consent - unblocking all scripts');
+      
+      // 1. Unblock scripts blocked by inline script (highest priority)
+      if (utils.unblockScripts) {
+        utils.unblockScripts();
+      }
+      
+      // 2. Also unblock scripts blocked by cookieconsent library
+      const cookieconsentBlockedScripts = document.querySelectorAll(
         'script[data-cookieconsent][type="text/plain"]'
       );
-
-      blockedScripts.forEach(script => {
+      
+      cookieconsentBlockedScripts.forEach(script => {
         const consentCategory = script.getAttribute('data-cookieconsent');
         const originalSrc = script.getAttribute('data-src');
-        const scriptName = script.getAttribute('data-name');
-
-        // Only unblock "necessary" category scripts
+        
         if (consentCategory === 'necessary' && originalSrc) {
-          console.log(`✅ Unblocking script: ${scriptName || originalSrc}`);
-
+          console.log(`✅ Unblocking cookieconsent script: ${originalSrc}`);
+          
           const newScript = document.createElement('script');
           newScript.src = originalSrc;
-
-          // Copy all attributes except the blocking ones
+          
+          // Copy all attributes except blocking ones
           Array.from(script.attributes).forEach(attr => {
-            if (
-              ![
-                'type',
-                'data-cookieconsent',
-                'data-src',
-                'data-name'
-              ].includes(attr.name)
-            ) {
+            if (!['type', 'data-cookieconsent', 'data-src', 'data-name'].includes(attr.name)) {
               newScript.setAttribute(attr.name, attr.value);
             }
           });
-
+          
           script.parentNode?.insertBefore(newScript, script);
           script.remove();
         }
       });
+      
+      // 3. Dispatch event for any other components that need to know
+      window.dispatchEvent(new CustomEvent('scripts-unblocked'));
     };
-
-    // Check if consent has already been given
-    const checkConsent = () => {
-      const hasConsent = hasValidConsent();
-      const hasRejected = hasRejectionCookie();
+    
+    // Check initial consent state
+    const checkInitialConsent = () => {
+      const hasConsent = utils.hasValidConsent();
+      const hasRejected = utils.hasRejectionCookie();
       
       if (hasConsent) {
-        console.log('✅ User has valid consent - unblocking scripts');
-        unblockScripts();
+        console.log('✅ Initial check: User has valid consent');
+        // Small delay to ensure inline script is ready
+        setTimeout(unblockAllScripts, 50);
       } else if (hasRejected) {
-        console.log('❌ User rejected - scripts remain blocked');
+        console.log('❌ Initial check: User rejected - scripts remain blocked');
       } else {
-        console.log('⏳ User has not decided - scripts remain blocked');
+        console.log('⏳ Initial check: User has not decided - scripts remain blocked');
       }
     };
-
-    // Run initial check
-    checkConsent();
-
-    // Listen for consent changes
-    const handleConsentChange = () => {
-      console.log('🔄 Consent change detected - checking scripts');
-      checkConsent();
-    };
-
-    // FIX: Listen for custom acceptance event for immediate unblocking
-    window.addEventListener('cookie-consent-accepted', handleConsentChange);
     
-    // Listen for library events
-    window.addEventListener('cc:onConsent', handleConsentChange);
-    window.addEventListener('cc:onChange', handleConsentChange);
-    
-    // Listen for rejection events
-    const handleRejectChange = () => {
-      console.log('🔄 Rejection detected - scripts remain blocked');
-      checkConsent();
+    // Listen for consent acceptance
+    const handleConsentAccepted = () => {
+      console.log('🔄 Consent acceptance event received');
+      // Small delay to ensure cookie is set before checking
+      setTimeout(() => {
+        if (utils.hasValidConsent()) {
+          unblockAllScripts();
+        }
+      }, 100);
     };
     
-    window.addEventListener('cc:onReject', handleRejectChange);
-    window.addEventListener('cookie-consent-rejected', handleRejectChange);
-
+    // Listen for consent rejection
+    const handleConsentRejected = () => {
+      console.log('🔄 Consent rejection event received - ensuring scripts remain blocked');
+      // Double-check that scripts are blocked
+      const hasRejected = utils.hasRejectionCookie();
+      if (hasRejected) {
+        console.log('✅ Confirmed: User rejected - all scripts blocked');
+      }
+    };
+    
+    // Initial check
+    checkInitialConsent();
+    
+    // Set up event listeners
+    window.addEventListener('cookie-consent-accepted', handleConsentAccepted);
+    window.addEventListener('cookie-consent-rejected', handleConsentRejected);
+    
+    // Also listen for library events (backward compatibility)
+    window.addEventListener('cc:onConsent', (e: any) => {
+      console.log('🔄 Library consent event:', e);
+      handleConsentAccepted();
+    });
+    
+    window.addEventListener('cc:onChange', (e: any) => {
+      console.log('🔄 Library change event:', e);
+      // Check if this change represents acceptance
+      setTimeout(() => {
+        if (utils.hasValidConsent()) {
+          handleConsentAccepted();
+        }
+      }, 50);
+    });
+    
+    window.addEventListener('cc:onReject', handleConsentRejected);
+    
+    // Cleanup function
     return () => {
-      window.removeEventListener('cookie-consent-accepted', handleConsentChange);
-      window.removeEventListener('cc:onConsent', handleConsentChange);
-      window.removeEventListener('cc:onChange', handleConsentChange);
-      window.removeEventListener('cc:onReject', handleRejectChange);
-      window.removeEventListener('cookie-consent-rejected', handleRejectChange);
+      window.removeEventListener('cookie-consent-accepted', handleConsentAccepted);
+      window.removeEventListener('cookie-consent-rejected', handleConsentRejected);
+      window.removeEventListener('cc:onConsent', handleConsentAccepted);
+      window.removeEventListener('cc:onChange', handleConsentAccepted);
+      window.removeEventListener('cc:onReject', handleConsentRejected);
     };
   }, []);
-
+  
+  // This component doesn't render anything
   return null;
 }

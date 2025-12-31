@@ -339,10 +339,10 @@ export default async function JobDetailPage({
             Apply Now
           </a>
           
-          {/* Disclaimer Note */}
-          <div className="mt-4">
-            <p className="text-[10px] italic text-text-muted-light dark:text-gray-400 text-center">
-              *Affiliate notice: This button takes you to the {job.website_name} website, which uses cookies for tracking to attribute referrals. TalentVaults earns a commission if you sign up and get hired for the job. For more information, see our privacy policy. *Affiliate-Hinweis: Diese Schaltfläche führt Sie zur Webseite von {job.website_name}, wo Cookies für Tracking zur Zuordnung von Empfehlungen verwendet werden. TalentVaults erhält eine Provision, erst wenn Sie sich anmelden und diesen Job erhalten. Weitere Informationen finden Sie in unserer Datenschutzerklärung.
+          {/* Updated Disclaimer Note */}
+          <div className="mt-4 px-2">
+            <p className="text-xs text-text-muted-light dark:text-gray-400 text-center leading-relaxed">
+              <span className="text-sm font-bold uppercase">AFFILIATE NOTICE:</span> This button takes you to the {job.website_name} website, which uses cookies for tracking to attribute referrals. TalentVaults earns a commission if you sign up and get hired for the job. For more information, see our privacy policy. <span className="text-sm font-bold uppercase">AFFILIATE-HINWEIS:</span> Diese Schaltfläche führt Sie zur Webseite von {job.website_name}, wo Cookies für Tracking zur Zuordnung von Empfehlungen verwendet werden. TalentVaults erhält eine Provision, erst wenn Sie sich anmelden und diesen Job erhalten. Weitere Informationen finden Sie in unserer Datenschutzerklärung.
             </p>
           </div>
         </div>

@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
             {/* Page Heading */}
             <div className="flex flex-col gap-2 border-b border-border-light dark:border-border-dark pb-6">
               <h1 className="text-text-light dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Privacy Policy</h1>
-              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 28, 2025</p>
+              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 31, 2025</p>
             </div>
             
             {/* 1. Overview Section */}
@@ -210,7 +210,7 @@ export default function PrivacyPolicyPage() {
               
               <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Consent Banner</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We display a GDPR-compliant consent banner with equal "Accept all" and "Reject all" options. This banner appears before any non-essential processing occurs.
+                We display a GDPR-compliant consent banner with equal "Accept all" and "Reject all" options. This banner appears before any non-essential processing occurs. We explicitly avoid dark patterns and ensure our interface design does not manipulate or influence user choice.
               </p>
               
               <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Managing Your Cookies</h3>
@@ -228,7 +228,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Note:</strong> Disabling essential cookies may impair website functionality.
               </p>
 
-              {/* Server-Side Consent Event Logging Subsection */}
+              {/* Server-Side Consent Event Logging Subsection - UPDATED */}
               <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Server-Side Consent Event Logging</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 When you make a cookie decision, we log the following server-side to demonstrate GDPR compliance:
@@ -237,24 +237,25 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Event type:</strong> "consent_accepted" or "consent_rejected"</li>
                 <li><strong>Button clicked:</strong> "Accept all" or "Reject all"</li>
                 <li><strong>Timestamp:</strong> ISO format date and time of the decision</li>
-                <li><strong>Legal basis:</strong> Art. 6(1)(a) GDPR (Consent)</li>
-                <li><strong>Additional notes:</strong> Description of the action taken</li>
+                <li><strong>Anonymized IP address:</strong> We store only the first two octets of your IP address (e.g., 192.168.xxx.xxx) to approximate the country/region without identifying your device or exact location.</li>
+                <li><strong>Anonymized User Agent:</strong> We store a hashed version of your browser's user agent string to detect patterns in consent behavior without identifying your specific browser configuration.</li>
+                <li><strong>Legal basis:</strong> We record your consent decision based on your explicit consent (Art. 6(1)(a) GDPR) for the sole purpose of maintaining a secure audit trail to demonstrate our compliance with data protection laws.</li>
               </ul>
               
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>Purpose:</strong> Demonstrate GDPR compliance, maintain audit logs for regulatory requirements, and provide evidence of user consent decisions.
+                <strong>Data Minimization:</strong> We adhere to the principle of data minimization. Our consent logs are limited to the essential details of the decision (choice, timestamp, legal basis) and an anonymized identifier. We do not store full IP addresses or raw user agent strings in these logs.
               </p>
               
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>Retention:</strong> 3 years (standard regulatory requirement for audit logs), then automatically deleted.
+                <strong>Retention:</strong> Consent confirmation logs are retained for a period of 90 days from the date of your decision, which is the necessary period for us to respond to any potential data subject requests or regulatory inquiries. After this period, the logs are automatically and permanently deleted.
               </p>
               
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>Legal Basis:</strong> Art. 6(1)(f) GDPR (Legitimate Interest in compliance, audit trail, and dispute defense).
+                <strong>Access Control:</strong> Access to these logs is restricted to authorized compliance and engineering staff on a need-to-know basis for audit and compliance purposes only.
               </p>
               
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <strong>Your Rights:</strong> You have the right to access, request deletion, or object to this logging. To exercise these rights, contact info@talentvaults.com. We will respond within 30 days.
+                <strong>Your Rights:</strong> You can request a copy of your consent record or its deletion at any time by contacting us. To exercise these rights, contact info@talentvaults.com. We will respond within 30 days.
               </p>
             </section>
             
@@ -387,16 +388,16 @@ export default function PrivacyPolicyPage() {
                     </tr>
                     <tr>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Consent event logs
+                        Consent event logs (anonymized)
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
                         TalentVaults
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        3 years
+                        90 days
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        Legitimate interest (compliance)
+                        <strong>Consent</strong> (Article 6(1)(a) GDPR)
                       </td>
                     </tr>
                     <tr>
@@ -639,6 +640,16 @@ export default function PrivacyPolicyPage() {
                 </ul>
               </div>
               
+              <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">2025 CPPA Updates and Compliance</h4>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Automated Decision-Making Technology (ADMT):</strong> TalentVaults does not currently use any ADMT that produces legal or similarly significant effects. If we implement ADMT in the future, we will update this policy and provide the required disclosures and opt-out mechanisms as required by CPRA effective January 1, 2027.</li>
+                <li><strong>Risk Assessments:</strong> We conduct risk assessments for high-risk processing activities as required by CPRA and GDPR, and maintain documentation of significant risk processing as required by California regulations.</li>
+                <li><strong>Cybersecurity Audits:</strong> We are committed to maintaining the security of your personal information. We undergo regular security assessments and will comply with the CPRA cybersecurity audit requirements according to the phased timeline (by revenue) set by the California Privacy Protection Agency (April 2028-2030).</li>
+                <li><strong>Neural Data:</strong> We do not collect neural data from biometric sensors.</li>
+                <li><strong>Enhanced Right to Know:</strong> Upon request, we will provide the categories and specific pieces of personal information we have collected about you, going back to January 1, 2022.</li>
+                <li><strong>Dark Patterns Prohibition:</strong> Our cookie consent banner and privacy choices are designed to be compliant and do not use dark patterns. We provide clear and easy options to accept or reject non-essential cookies with equal visual prominence.</li>
+              </ul>
+              
               <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">Your California Privacy Rights</h4>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 You have the right to:
@@ -650,6 +661,7 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Opt-Out of Sale/Sharing:</strong> We do NOT sell or share personal information</li>
                 <li><strong>Limit Use of SPI:</strong> Limit use of sensitive personal information (CPRA §1798.121)</li>
                 <li><strong>Non-Discrimination:</strong> Not receive discriminatory treatment for exercising rights</li>
+                <li><strong>Right to Opt-Out of Automated Decision-Making:</strong> You have the right to opt-out of automated decision-making technology (ADMT) for significant decisions. However, TalentVaults does not currently use ADMT for any processing that produces legal or similarly significant effects.</li>
               </ul>
               
               <h4 className="text-text-light dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4">How to Exercise Your Rights</h4>
