@@ -14,15 +14,25 @@ declare global {
   }
 }
 
+// Helper function to get cookie value
+const getCookieValue = (name: string) => {
+  try {
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith(name + '='));
+    return cookie ? cookie.split('=')[1] : null;
+  } catch {
+    return null;
+  }
+};
+
 // Helper function to check if user has valid consent (acceptance)
 const hasAcceptanceCookie = (): boolean => {
   try {
-    const cvCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('cv_cookie='));
+    const cvCookie = getCookieValue('cv_cookie');
     if (!cvCookie) return false;
 
-    const cookieData = JSON.parse(decodeURIComponent(cvCookie.split('=')[1]));
+    const cookieData = JSON.parse(decodeURIComponent(cvCookie));
 
     // Check for new structure: categories as object with necessary: true
     if (cookieData && cookieData.categories) {
@@ -49,10 +59,7 @@ const hasAcceptanceCookie = (): boolean => {
 // Helper function to check if user has rejected
 const hasRejectionCookie = (): boolean => {
   try {
-    const rejectionCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('cv_rejection='));
-    return !!rejectionCookie;
+    return !!getCookieValue('cv_rejection');
   } catch {
     return false;
   }
@@ -65,12 +72,10 @@ const hasAnyRejection = (): boolean => {
     if (hasRejectionCookie()) return true;
     
     // Check library's empty categories format
-    const cvCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('cv_cookie='));
+    const cvCookie = getCookieValue('cv_cookie');
     if (!cvCookie) return false;
 
-    const cookieData = JSON.parse(decodeURIComponent(cvCookie.split('=')[1]));
+    const cookieData = JSON.parse(decodeURIComponent(cvCookie));
     
     // Library rejection formats:
     // 1. Empty array: categories: []
@@ -134,21 +139,22 @@ export default function CookieConsentClient() {
       console.log('✅ Essential rejection cookie set with user consent (Art. 6(1)(a) GDPR)');
     };
 
-    // Determine user's previous decision
+    // Determine user's previous decision - FIXED LOGIC
     const determineUserDecision = (): 'undecided' | 'accepted' | 'rejected' => {
+      // Check explicit rejection cookie first
+      if (hasRejectionCookie()) return 'rejected';
+      
+      // Check for acceptance
       if (hasAcceptanceCookie()) return 'accepted';
+      
+      // Check if library cookie represents rejection (IMPORTANT!)
       if (hasAnyRejection()) return 'rejected';
+      
       return 'undecided';
     };
 
     const userDecision = determineUserDecision();
     console.log(`🎯 Initial user decision: ${userDecision}`);
-
-    // Clean up any ambiguous rejection states
-    if (hasAnyRejection() && !hasRejectionCookie()) {
-      console.log('🧹 Cleaning up ambiguous rejection state');
-      deleteCookie('cv_cookie');
-    }
 
     // Function to forcefully hide preferences modal if it appears after acceptance
     const hidePreferencesModalIfVisible = () => {
@@ -345,6 +351,8 @@ export default function CookieConsentClient() {
           
           // Delete rejection cookie if it exists (user changing mind)
           deleteCookie('cv_rejection');
+          // Delete audit cookie if it exists
+          deleteCookie('cv_cookie_audit');
           
           // Set correct cookie structure IMMEDIATELY
           const acceptanceData = {
@@ -362,7 +370,7 @@ export default function CookieConsentClient() {
             button_clicked: 'Accept all',
             legal_basis: 'Art. 6(1)(a) GDPR',
             timestamp: new Date().toISOString(),
-            note: 'User accepted - cv_cookie set, cv_rejection deleted'
+            note: 'User accepted - cv_cookie set, cv_rejection and cv_cookie_audit deleted'
           });
 
           document.body.setAttribute('data-cookie-consent', 'accepted');
@@ -411,12 +419,12 @@ export default function CookieConsentClient() {
           if (cookie && cookie.categories) {
             // Empty array means rejection
             if (Array.isArray(cookie.categories) && cookie.categories.length === 0) {
-              console.log('🔄 Detected rejection via empty categories array');
+              console.log('✅ onChange detected rejection via categories: []');
               handleRejection();
             }
             // Object with necessary: false means rejection
             if (typeof cookie.categories === 'object' && cookie.categories.necessary === false) {
-              console.log('🔄 Detected rejection via necessary: false');
+              console.log('✅ onChange detected rejection via necessary: false');
               handleRejection();
             }
           }
@@ -450,11 +458,21 @@ export default function CookieConsentClient() {
       };
     };
 
-    // Unified rejection handler
+    // Unified rejection handler - FIXED: Preserve cv_cookie as audit trail
     const handleRejection = () => {
-      console.log('❌ Handling rejection - cleaning up and setting rejection cookie');
+      console.log('❌ Handling rejection - setting rejection cookie');
       
-      // Delete ALL variations of cv_cookie
+      // Get the library cookie value before modifying
+      const libraryCookieValue = getCookieValue('cv_cookie');
+      
+      // Rename cv_cookie to cv_cookie_audit for audit trail (instead of deleting)
+      if (libraryCookieValue) {
+        const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `cv_cookie_audit=${libraryCookieValue}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax${secureFlag}`;
+        console.log('📝 Preserved library cookie as cv_cookie_audit for audit trail');
+      }
+      
+      // Delete the original cv_cookie (now we have audit trail)
       deleteCookie('cv_cookie');
       
       // Set our minimal essential rejection cookie
@@ -466,7 +484,7 @@ export default function CookieConsentClient() {
         button_clicked: 'Reject all',
         legal_basis: 'Art. 6(1)(a) GDPR',
         timestamp: new Date().toISOString(),
-        note: 'User rejected - cv_rejection cookie set, cv_cookie deleted'
+        note: 'User rejected - cv_rejection cookie set, cv_cookie preserved as cv_cookie_audit'
       });
 
       document.body.setAttribute('data-cookie-consent', 'rejected');

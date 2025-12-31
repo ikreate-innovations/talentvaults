@@ -147,26 +147,50 @@ body[data-cookie-consent="accepted"] .cc-backdrop {
                   }
                 }
                 
-                // Clean up ambiguous states
+                // Clean up ambiguous states AND set rejection cookie
                 function cleanAmbiguousStates() {
                   try {
                     const cvCookie = document.cookie.split('; ').find(row => row.startsWith('cv_cookie='));
                     if (cvCookie) {
                       const cookieData = JSON.parse(decodeURIComponent(cvCookie.split('=')[1]));
                       
-                      // Clean up if cookie exists but doesn't represent acceptance
+                      // Check if this represents a rejection
                       if (cookieData && cookieData.categories) {
                         const isAccepted = 
                           (typeof cookieData.categories === 'object' && cookieData.categories.necessary === true) ||
                           (Array.isArray(cookieData.categories) && cookieData.categories.includes('necessary'));
                         
-                        if (!isAccepted) {
+                        const isRejection = 
+                          (Array.isArray(cookieData.categories) && cookieData.categories.length === 0) ||
+                          (typeof cookieData.categories === 'object' && cookieData.categories.necessary === false);
+                        
+                        if (!isAccepted && isRejection) {
+                          console.log('🧹 Converting library rejection to cv_rejection cookie');
+                          
+                          // Set rejection cookie BEFORE deleting cv_cookie
+                          const rejectionData = {
+                            rejected: true,
+                            timestamp: new Date().toISOString(),
+                            convertedFrom: 'library_cookie',
+                            note: 'Stored with user consent (Art. 6(1)(a) GDPR) to remember preference'
+                          };
+                          
+                          const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+                          document.cookie = 'cv_rejection=' + encodeURIComponent(JSON.stringify(rejectionData)) + 
+                                           '; path=/; max-age=31536000; SameSite=Lax' + secureFlag;
+                          
+                          // Delete the library cookie
+                          document.cookie = 'cv_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                        } else if (!isAccepted && !isRejection) {
+                          // This is an ambiguous state (not acceptance and not rejection) - delete it
                           console.log('🧹 Cleaning up ambiguous cookie state');
                           document.cookie = 'cv_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                         }
                       }
                     }
-                  } catch {}
+                  } catch (e) {
+                    console.error('Error in cleanAmbiguousStates:', e);
+                  }
                 }
                 
                 // Initial audit
@@ -176,7 +200,7 @@ body[data-cookie-consent="accepted"] .cc-backdrop {
                   
                   console.log('🔍 GDPR Audit: hasConsent=' + hasConsent + ', hasRejection=' + hasRejection);
                   
-                  // Clean up any ambiguous states
+                  // Clean up any ambiguous states and convert rejections
                   cleanAmbiguousStates();
                   
                   console.log('✅ GDPR COMPLIANT: Cookie audit passed');
