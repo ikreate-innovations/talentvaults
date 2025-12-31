@@ -16,6 +16,7 @@ declare global {
       getLogs: () => any[];
       clearLogs: () => void;
     };
+    showCookiePreferences: () => void;
   }
 }
 
@@ -195,6 +196,144 @@ const logConsentToServer = (data: any) => {
 let preferencesModalWasOpened = false;
 
 // ====================
+// CRITICAL: Should we initialize the library?
+// ====================
+const shouldInitializeLibrary = (): boolean => {
+  try {
+    // Check if we already have a proper rejection cookie
+    const rejectionCookie = getCookieValue('cv_rejection');
+    if (rejectionCookie) {
+      const data = JSON.parse(rejectionCookie);
+      if (data.rejected === true) {
+        console.log('🛑 Library initialization prevented - user has rejected');
+        return false;
+      }
+    }
+    return true;
+  } catch {
+    return true;
+  }
+};
+
+// ====================
+// Get library configuration
+// ====================
+const getLibraryConfiguration = (userDecision: string) => {
+  return {
+    // ====================
+    // GDPR COMPLIANCE SETTINGS
+    // ====================
+    mode: 'opt-in',
+    autoShow: userDecision === 'undecided',
+    delay: 0,
+    hideFromBots: false,
+    revision: 0,
+    autoClear: true,
+    autoShowPreferences: false,
+
+    // ====================
+    // CRITICAL FIX: CATEGORIES CONFIGURATION
+    // ====================
+    categories: {
+      necessary: {
+        enabled: true,      // 🟢 ALWAYS TRUE - necessary cookies ARE necessary
+        readOnly: true,     // 🟢 Users can't toggle this
+        autoClear: {
+          name: 'cv_cookie',
+          domain: window.location.hostname,
+          path: '/'
+        }
+      }
+    },
+
+    // ====================
+    // GUI OPTIONS
+    // ====================
+    guiOptions: {
+      consentModal: {
+        layout: 'cloud',
+        position: 'bottom center',
+        equalWeightButtons: true,
+        flipButtons: false,
+        showPreferencesButton: false
+      },
+      preferencesModal: {
+        layout: 'box',
+        equalWeightButtons: true,
+        position: 'middle',
+        transition: 'none'
+      }
+    },
+
+    // ====================
+    // LANGUAGE
+    // ====================
+    language: {
+      default: 'en',
+      translations: {
+        en: {
+          consentModal: {
+            title: 'Cookie Consent',
+            description: 'We use essential cookies to remember your preferences and to demonstrate compliance with data protection law. No tracking, analytics, or marketing cookies are used. Learn more in our <a href="/legal/privacy" class="text-primary hover:underline" target="_blank">Privacy Policy</a>.',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Reject all',
+          },
+          preferencesModal: {
+            title: 'Cookie Preferences',
+            savePreferencesBtn: 'Save preferences',
+            acceptAllBtn: 'Accept all',
+            rejectAllBtn: 'Reject all',
+            closeIconLabel: 'Close',
+            sections: [
+              {
+                title: 'Essential Cookies',
+                description: 'We use essential cookies to store your consent preferences. If you accept, we set a cookie to remember your choice. If you reject, we set a minimal cookie to record your rejection decision (GDPR requirement).',
+                linkedCategory: 'necessary',
+                cookieTable: {
+                  headers: {
+                    name: 'Cookie',
+                    purpose: 'Purpose',
+                    duration: 'Duration'
+                  },
+                  body: [
+                    {
+                      name: 'cv_cookie',
+                      purpose: 'Stores your consent preferences (acceptance) to demonstrate GDPR compliance and avoid showing the banner repeatedly.',
+                      duration: '1 year'
+                    },
+                    {
+                      name: 'cv_rejection',
+                      purpose: 'Records your rejection decision with your consent (Art. 6(1)(a) GDPR) to remember your choice and prevent the banner from reappearing. Contains only timestamp and rejection status—no behavioral data.',
+                      duration: '1 year'
+                    }
+                  ]
+                }
+              },
+              {
+                title: 'More Information',
+                description: 'For any questions regarding our cookie usage, please contact us at <a href="mailto:info@talentvaults.com">info@talentvaults.com</a>. You can withdraw consent at any time by clearing your browser cookies.'
+              }
+            ]
+          }
+        }
+      }
+    },
+
+    // ====================
+    // COOKIE SETTINGS
+    // ====================
+    cookie: {
+      name: 'cv_cookie',
+      expiresAfterDays: 365,
+      domain: window.location.hostname,
+      path: '/',
+      sameSite: 'Lax',
+      secure: window.location.protocol === 'https:'
+    }
+  };
+};
+
+// ====================
 // MAIN COMPONENT
 // ====================
 
@@ -207,6 +346,15 @@ export default function CookieConsentClient() {
 
   useEffect(() => {
     if (!isClient) return;
+
+    // ====================
+    // CRITICAL: Early Exit for Rejection
+    // ====================
+    if (!shouldInitializeLibrary()) {
+      console.log('🛑 Skipping library initialization - user rejected');
+      document.body.setAttribute('data-cookie-consent', 'rejected');
+      return;
+    }
 
     // ====================
     // IDEMPOTENT REJECTION HANDLER
@@ -251,7 +399,6 @@ export default function CookieConsentClient() {
       logConsentToServer({
         event: 'consent_rejected',
         button_clicked: 'Reject all',
-        // CORRECTED: Now uses Art. 6(1)(a) not Art. 6(1)(f)
         note: 'User rejected - cv_rejection cookie set, logs retained 90 days under Art. 6(1)(a) GDPR'
       });
     };
@@ -289,7 +436,7 @@ export default function CookieConsentClient() {
       }
       
       // Check if library cookie represents rejection and normalize
-      if (hasAnyRejection()) {
+      if (hasAnyRejection() && !hasRejectionCookie()) {
         console.log('🎯 Detected library-style rejection; normalizing to cv_rejection');
         
         // One-time normalization
@@ -305,6 +452,15 @@ export default function CookieConsentClient() {
 
     const userDecision = determineUserDecision();
     console.log(`🎯 Initial user decision: ${userDecision}`);
+
+    // ====================
+    // Early exit if rejected
+    // ====================
+    if (userDecision === 'rejected') {
+      console.log('🛑 User decision is rejected - not initializing library');
+      document.body.setAttribute('data-cookie-consent', 'rejected');
+      return;
+    }
 
     // ====================
     // UTILITY FUNCTIONS
@@ -361,7 +517,7 @@ export default function CookieConsentClient() {
     };
 
     // ====================
-    // LIBRARY INITIALIZATION
+    // LIBRARY INITIALIZATION (Only if needed)
     // ====================
     const initializeWhenReady = () => {
       if (!window.CookieConsent) {
@@ -369,120 +525,15 @@ export default function CookieConsentClient() {
         return;
       }
 
+      console.log(`✅ Initializing CookieConsent (autoShow: ${userDecision === 'undecided'})`);
+      
+      const config = getLibraryConfiguration(userDecision);
+      
       window.CookieConsent.run({
+        ...config,
+        
         // ====================
-        // GDPR COMPLIANCE SETTINGS
-        // ====================
-        mode: 'opt-in',
-        autoShow: userDecision === 'undecided',
-        delay: 0,
-        hideFromBots: false,
-        revision: 0,
-        autoClear: true,
-        autoShowPreferences: false,
-
-        // ====================
-        // CATEGORIES
-        // ====================
-        categories: {
-          necessary: {
-            enabled: userDecision === 'accepted',
-            readOnly: false,
-            autoClear: {
-              name: 'cv_cookie',
-              domain: window.location.hostname,
-              path: '/'
-            }
-          }
-        },
-
-        // ====================
-        // GUI OPTIONS
-        // ====================
-        guiOptions: {
-          consentModal: {
-            layout: 'cloud',
-            position: 'bottom center',
-            equalWeightButtons: true,
-            flipButtons: false,
-            showPreferencesButton: false
-          },
-          preferencesModal: {
-            layout: 'box',
-            equalWeightButtons: true,
-            position: 'middle',
-            transition: 'none'
-          }
-        },
-
-        // ====================
-        // LANGUAGE
-        // ====================
-        language: {
-          default: 'en',
-          translations: {
-            en: {
-              consentModal: {
-                title: 'Cookie Consent',
-                description: 'We use essential cookies to remember your preferences and to demonstrate compliance with data protection law. No tracking, analytics, or marketing cookies are used. Learn more in our <a href="/legal/privacy" class="text-primary hover:underline" target="_blank">Privacy Policy</a>.',
-                acceptAllBtn: 'Accept all',
-                acceptNecessaryBtn: 'Reject all',
-              },
-              preferencesModal: {
-                title: 'Cookie Preferences',
-                savePreferencesBtn: 'Save preferences',
-                acceptAllBtn: 'Accept all',
-                rejectAllBtn: 'Reject all',
-                closeIconLabel: 'Close',
-                sections: [
-                  {
-                    title: 'Essential Cookies',
-                    description: 'We use essential cookies to store your consent preferences. If you accept, we set a cookie to remember your choice. If you reject, we set a minimal cookie to record your rejection decision (GDPR requirement).',
-                    linkedCategory: 'necessary',
-                    cookieTable: {
-                      headers: {
-                        name: 'Cookie',
-                        purpose: 'Purpose',
-                        duration: 'Duration'
-                      },
-                      body: [
-                        {
-                          name: 'cv_cookie',
-                          purpose: 'Stores your consent preferences (acceptance) to demonstrate GDPR compliance and avoid showing the banner repeatedly.',
-                          duration: '1 year'
-                        },
-                        {
-                          name: 'cv_rejection',
-                          purpose: 'Records your rejection decision with your consent (Art. 6(1)(a) GDPR) to remember your choice and prevent the banner from reappearing. Contains only timestamp and rejection status—no behavioral data.',
-                          duration: '1 year'
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    title: 'More Information',
-                    description: 'For any questions regarding our cookie usage, please contact us at <a href="mailto:info@talentvaults.com">info@talentvaults.com</a>. You can withdraw consent at any time by clearing your browser cookies.'
-                  }
-                ]
-              }
-            }
-          }
-        },
-
-        // ====================
-        // COOKIE SETTINGS
-        // ====================
-        cookie: {
-          name: 'cv_cookie',
-          expiresAfterDays: 365,
-          domain: window.location.hostname,
-          path: '/',
-          sameSite: 'Lax',
-          secure: window.location.protocol === 'https:'
-        },
-
-        // ====================
-        // CALLBACKS
+        // MODIFIED CALLBACKS
         // ====================
         onFirstAction: ({ cookie }: any) => {
           console.log('✅ First action recorded:', cookie);
@@ -512,7 +563,6 @@ export default function CookieConsentClient() {
           logConsentToServer({
             event: 'consent_accepted',
             button_clicked: 'Accept all',
-            // CORRECTED: Now uses Art. 6(1)(a) not Art. 6(1)(f)
             note: 'User accepted - cv_cookie set, logs retained 90 days under Art. 6(1)(a) GDPR'
           });
 
@@ -536,45 +586,49 @@ export default function CookieConsentClient() {
 
         onReject: ({ cookie }: any) => {
           console.log('❌ Consent rejected via onReject');
-          handleRejection();
+          
+          // Set rejection cookie
+          setRejectionCookie();
+          
+          // Delete acceptance cookie
+          deleteCookie('cv_cookie');
+          
+          // Log the rejection
+          logConsentToServer({
+            event: 'consent_rejected',
+            button_clicked: 'Reject all',
+            note: 'User rejected - cv_rejection set'
+          });
+
+          document.body.setAttribute('data-cookie-consent', 'rejected');
+          
+          // Hide banner
+          if (window.CookieConsent) {
+            window.CookieConsent.hide();
+          }
+          
+          // Dispatch event for ScriptBlockingComponent
+          window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
         },
 
         onChange: ({ changedCategories, cookie }: any) => {
           console.log('🔄 onChange fired with:', { changedCategories, cookie });
-
-          // If already normalized to rejection, ignore further library changes
-          if (hasRejectionCookie()) {
-            console.log('🛡️ Rejection already stored (cv_rejection) - ignoring change');
-            return;
-          }
-
-          // Track preferences modal opening
+          
+          // Ignore preferences modal opening
           if (changedCategories === 'showPreferences') {
             preferencesModalWasOpened = true;
-            console.log('📱 User manually opened preferences modal');
             return;
           }
-
-          // Library-specific rejection signals
-          const isNecessaryFalse =
-            changedCategories && 'necessary' in changedCategories && changedCategories.necessary === false;
-
-          const isEmptyCategoriesArray =
-            cookie && Array.isArray(cookie.categories) && cookie.categories.length === 0;
-
-          const isNecessaryFalseInObject =
-            cookie && typeof cookie.categories === 'object' && cookie.categories.necessary === false;
-
-          if (isNecessaryFalse || isEmptyCategoriesArray || isNecessaryFalseInObject) {
-            console.log('✅ onChange detected rejection - normalizing');
-            handleRejection();
-            return;
-          }
-
-          // Acceptance case
-          if (changedCategories && 'necessary' in changedCategories && changedCategories.necessary === true) {
-            console.log('✅ onChange detected acceptance');
-            hidePreferencesModalIfVisible();
+          
+          // If categories changed to empty, treat as rejection
+          if (cookie && Array.isArray(cookie.categories) && cookie.categories.length === 0) {
+            console.log('✅ onChange detected empty categories - treating as rejection');
+            setRejectionCookie();
+            deleteCookie('cv_cookie');
+            document.body.setAttribute('data-cookie-consent', 'rejected');
+            if (window.CookieConsent) {
+              window.CookieConsent.hide();
+            }
           }
         },
         
@@ -587,8 +641,6 @@ export default function CookieConsentClient() {
           console.log('⚙️ Preferences modal hidden');
         }
       });
-
-      console.log(`✅ CookieConsent initialized (autoShow: ${userDecision === 'undecided'})`);
       
       // If user already has consent, trigger unblocking immediately
       if (userDecision === 'accepted') {
@@ -612,7 +664,7 @@ export default function CookieConsentClient() {
       };
     };
 
-    // Initialize library
+    // Initialize library if needed
     if (window.CookieConsent) {
       initializeWhenReady();
     } else {
@@ -780,11 +832,4 @@ export default function CookieConsentClient() {
       </noscript>
     </>
   );
-}
-
-// Extend Window interface
-declare global {
-  interface Window {
-    showCookiePreferences: () => void;
-  }
 }
