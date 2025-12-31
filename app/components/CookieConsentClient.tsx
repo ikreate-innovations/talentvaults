@@ -236,8 +236,8 @@ const getLibraryConfiguration = (userDecision: string) => {
     // ====================
     categories: {
       necessary: {
-        enabled: true,      // 🟢 ALWAYS TRUE - necessary cookies ARE necessary
-        readOnly: true,     // 🟢 Users can't toggle this
+        enabled: userDecision === 'accepted',      // 🟢 ALWAYS TRUE - necessary cookies ARE necessary
+        readOnly: false,     // 🟢 Users can't toggle this
         autoClear: {
           name: 'cv_cookie',
           domain: window.location.hostname,
