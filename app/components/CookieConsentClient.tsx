@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Script from 'next/script';
 
 declare global {
@@ -49,30 +49,13 @@ const deleteCookie = (name: string) => {
   console.log(`🗑️ Deleted cookie: ${name}`);
 };
 
-// Helper function to check if user has valid consent (acceptance)
+// Fix C: Update hasAcceptanceCookie to ONLY check for fullAcceptance flag
 const hasAcceptanceCookie = (): boolean => {
   try {
-    const cvCookie = getCookieValue('cv_cookie');
-    if (!cvCookie) return false;
-
-    const cookieData = JSON.parse(cvCookie);
-
-    // Check for acceptance structure - must have categories with necessary=true
-    // AND we should have a specific flag for full acceptance
-    if (cookieData && cookieData.categories) {
-      // Check if this is a "full acceptance" cookie (not just necessary)
-      if (cookieData.fullAcceptance === true) {
-        return true;
-      }
-      if (typeof cookieData.categories === 'object' && cookieData.categories.necessary === true) {
-        return true;
-      }
-      if (Array.isArray(cookieData.categories) && cookieData.categories.includes('necessary')) {
-        return true;
-      }
-    }
-
-    return false;
+    const raw = getCookieValue('cv_cookie');
+    if (!raw) return false;
+    const cookieData = JSON.parse(raw);
+    return !!(cookieData && cookieData.fullAcceptance === true);
   } catch {
     return false;
   }
@@ -87,32 +70,9 @@ const hasRejectionCookie = (): boolean => {
   }
 };
 
-// Helper function to check for ANY rejection format (library or ours)
+// Fix C: Update hasAnyRejection to ONLY check our cv_rejection cookie
 const hasAnyRejection = (): boolean => {
-  try {
-    // Check our explicit rejection cookie
-    if (hasRejectionCookie()) return true;
-    
-    // Check library's rejection formats in cv_cookie
-    const cvCookie = getCookieValue('cv_cookie');
-    if (!cvCookie) return false;
-
-    const cookieData = JSON.parse(cvCookie);
-    
-    // Library rejection formats:
-    if (cookieData && cookieData.categories) {
-      if (typeof cookieData.categories === 'object') {
-        return cookieData.categories.necessary === false;
-      }
-      if (Array.isArray(cookieData.categories)) {
-        return cookieData.categories.length === 0;
-      }
-    }
-    
-    return false;
-  } catch {
-    return false;
-  }
+  return hasRejectionCookie();
 };
 
 // Function to set minimal essential rejection cookie
@@ -217,17 +177,21 @@ const getLibraryConfiguration = (userDecision: string) => {
     autoShowPreferences: false,
 
     // ====================
-    // CRITICAL FIX #2: CATEGORIES CONFIGURATION
+    // CRITICAL FIX #2: ADD ANALYTICS CATEGORY (DUMMY)
     // ====================
     categories: {
       necessary: {
         enabled: true,      // 🟢 ALWAYS TRUE - never false
         readOnly: true,     // 🟢 Users CANNOT toggle this
         autoClear: {
-          name: 'cv_cookie',
+          name: 'cc_cookie', // Library manages its own cookie
           domain: window.location.hostname,
           path: '/'
         }
+      },
+      analytics: {
+        enabled: false,     // 🔴 Disabled by default - DUMMY CATEGORY
+        readOnly: false     // 🟡 User can toggle but we don't use analytics
       }
     },
 
@@ -251,7 +215,7 @@ const getLibraryConfiguration = (userDecision: string) => {
     },
 
     // ====================
-    // LANGUAGE - Use acceptNecessaryBtn as "Reject all" conceptually
+    // LANGUAGE - Updated to clarify no analytics are used
     // ====================
     language: {
       default: 'en',
@@ -259,9 +223,9 @@ const getLibraryConfiguration = (userDecision: string) => {
         en: {
           consentModal: {
             title: 'Cookie Consent',
-            description: 'We use essential cookies to remember your preferences and to demonstrate compliance with data protection law. No tracking, analytics, or marketing cookies are used. Learn more in our <a href="/legal/privacy" class="text-primary hover:underline" target="_blank">Privacy Policy</a>.',
+            description: 'We use essential cookies to remember your preferences and to demonstrate compliance with data protection law. We do NOT use analytics or tracking cookies. The "analytics" category is shown only for technical reasons to distinguish between acceptance and rejection. <a href="/legal/privacy" class="text-primary hover:underline" target="_blank">Learn more in our Privacy Policy</a>.',
             acceptAllBtn: 'Accept all',
-            acceptNecessaryBtn: 'Reject all', // This triggers "accept necessary only"
+            acceptNecessaryBtn: 'Reject all',
           },
           preferencesModal: {
             title: 'Cookie Preferences',
@@ -290,6 +254,30 @@ const getLibraryConfiguration = (userDecision: string) => {
                       name: 'cv_rejection',
                       purpose: 'Records your rejection decision with your consent (Art. 6(1)(a) GDPR) to remember your choice and prevent the banner from reappearing. Contains only timestamp and rejection status—no behavioral data.',
                       duration: '1 year'
+                    },
+                    {
+                      name: 'cc_cookie',
+                      purpose: 'Internal library cookie used to manage the consent modal interface. Does not affect your consent choice.',
+                      duration: '1 year'
+                    }
+                  ]
+                }
+              },
+              {
+                title: 'Analytics Cookies (Information Only)',
+                description: 'We DO NOT use any analytics, tracking, or marketing cookies. The analytics category is included only for technical reasons to properly distinguish between "Accept all" and "Reject all" choices. Enabling this category does nothing—we do not collect any analytics data.',
+                linkedCategory: 'analytics',
+                cookieTable: {
+                  headers: {
+                    name: 'Cookie',
+                    purpose: 'Purpose',
+                    duration: 'Duration'
+                  },
+                  body: [
+                    {
+                      name: 'No cookies used',
+                      purpose: 'We do not use any analytics cookies. This category exists only for technical implementation.',
+                      duration: 'N/A'
                     }
                   ]
                 }
@@ -308,7 +296,7 @@ const getLibraryConfiguration = (userDecision: string) => {
     // COOKIE SETTINGS
     // ====================
     cookie: {
-      name: 'cv_cookie',
+      name: 'cc_cookie', // Library manages its own cookie separately
       expiresAfterDays: 365,
       domain: window.location.hostname,
       path: '/',
@@ -324,6 +312,7 @@ const getLibraryConfiguration = (userDecision: string) => {
 
 export default function CookieConsentClient() {
   const [isClient, setIsClient] = useState(false);
+  const skipInitialConsentEvent = useRef(true);
 
   useEffect(() => {
     setIsClient(true);
@@ -345,6 +334,96 @@ export default function CookieConsentClient() {
       }
       return;
     }
+
+    // ====================
+    // CRITICAL FIX #4: Add cc:onConsent event handler as fallback
+    // ====================
+    const handleConsentEvent = (e: any) => {
+      try {
+        // Skip the initial event (fires on library initialization)
+        if (skipInitialConsentEvent.current) {
+          skipInitialConsentEvent.current = false;
+          return;
+        }
+
+        const cookie = e.detail.cookie;
+        const categories = cookie.categories || [];
+        
+        console.log('🎯 [React] cc:onConsent caught:', {
+          categories: categories,
+          level: cookie.level,
+          hasAnalytics: categories.includes('analytics')
+        });
+        
+        // Check if analytics category is present (Accept all)
+        const hasAnalytics = categories.includes('analytics');
+        
+        if (hasAnalytics) {
+          // ✅ This is ACCEPTANCE (Accept all was clicked)
+          console.log('✅ [React] ACCEPTANCE detected - setting cv_cookie');
+          
+          // Set cv_cookie with fullAcceptance flag
+          const acceptanceData = {
+            categories: { 
+              necessary: true,
+              analytics: true 
+            },
+            fullAcceptance: true,
+            consentTimestamp: new Date().toISOString(),
+            revision: 0
+          };
+          
+          const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+          document.cookie = 'cv_cookie=' + encodeURIComponent(JSON.stringify(acceptanceData)) + 
+                          '; path=/; max-age=' + (365 * 24 * 60 * 60) + 
+                          '; SameSite=Lax' + secureFlag;
+          
+          // Delete cv_rejection if exists
+          document.cookie = 'cv_rejection=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          
+          // Log to server
+          logConsentToServer({
+            event: 'consent_accepted',
+            button_clicked: 'Accept all',
+            note: 'User accepted via cc:onConsent event - cv_cookie set with fullAcceptance flag'
+          });
+
+          document.body.setAttribute('data-cookie-consent', 'accepted');
+          
+          // Trigger immediate unblocking
+          setTimeout(() => {
+            triggerImmediateUnblocking();
+          }, 20);
+          
+        } else if (categories.includes('necessary')) {
+          // ❌ This is REJECTION (Reject all was clicked or only necessary accepted)
+          console.log('❌ [React] REJECTION detected - setting cv_rejection');
+          
+          // Set rejection cookie
+          setRejectionCookie();
+          
+          // Delete cv_cookie if exists
+          deleteCookie('cv_cookie');
+          
+          // Log to server
+          logConsentToServer({
+            event: 'consent_rejected',
+            button_clicked: 'Reject all',
+            note: 'User rejected via cc:onConsent event - cv_rejection set'
+          });
+
+          document.body.setAttribute('data-cookie-consent', 'rejected');
+          
+          // Dispatch event for ScriptBlockingComponent
+          window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
+        }
+      } catch (error) {
+        console.error('❌ [React] Error in cc:onConsent handler:', error);
+      }
+    };
+
+    // Add event listener for cc:onConsent
+    window.addEventListener('cc:onConsent', handleConsentEvent);
 
     // ====================
     // SIMPLIFIED REJECTION HANDLER
@@ -377,7 +456,7 @@ export default function CookieConsentClient() {
     };
 
     // ====================
-    // CRITICAL FIX #4: SIMPLIFIED DECISION DETERMINATION
+    // CRITICAL FIX #5: SIMPLIFIED DECISION DETERMINATION (Fix C)
     // ====================
     const determineUserDecision = (): 'undecided' | 'accepted' | 'rejected' => {
       // CRITICAL: Rejection cookie takes ABSOLUTE precedence
@@ -390,13 +469,6 @@ export default function CookieConsentClient() {
       if (hasAcceptanceCookie()) {
         console.log('🎯 Decision: accepted (cv_cookie present and valid)');
         return 'accepted';
-      }
-      
-      // CRITICAL FIX: Check for library's rejection format
-      if (hasAnyRejection() && !hasRejectionCookie()) {
-        console.log('🎯 Detected rejection without cv_rejection - setting it now');
-        setRejectionCookie();
-        return 'rejected';
       }
       
       console.log('🎯 Decision: undecided (no cookies present)');
@@ -491,142 +563,12 @@ export default function CookieConsentClient() {
         ...config,
         
         // ====================
-        // MODIFIED CALLBACKS
+        // SIMPLIFIED CALLBACKS (Dead code removed)
         // ====================
         onFirstAction: ({ cookie }: any) => {
           console.log('✅ First action recorded:', cookie);
         },
 
-        onAccept: ({ cookie }: any) => {
-          console.log('📝 onAccept called with cookie:', cookie);
-          
-          // DETECT if this is "Reject all" (accept necessary only) vs "Accept all"
-          // The library doesn't tell us which button was clicked, so we need to infer
-          
-          // Check if this is "accept necessary only" (which is our "Reject all")
-          const isRejectAll = cookie && 
-            ((Array.isArray(cookie.categories) && cookie.categories.length === 1 && cookie.categories[0] === 'necessary') ||
-             (typeof cookie.categories === 'object' && cookie.categories.necessary === true && Object.keys(cookie.categories).length === 1));
-          
-          if (isRejectAll) {
-            console.log('🎯 Detected "Reject all" (accept necessary only)');
-            
-            // This is actually rejection in our system
-            setRejectionCookie();
-            deleteCookie('cv_cookie');
-            
-            logConsentToServer({
-              event: 'consent_rejected',
-              button_clicked: 'Reject all',
-              note: 'User rejected (via acceptNecessaryBtn) - cv_rejection set, cv_cookie deleted'
-            });
-
-            document.body.setAttribute('data-cookie-consent', 'rejected');
-            
-            // Hide banner
-            if (window.CookieConsent) {
-              window.CookieConsent.hide();
-            }
-            
-            // Dispatch event for ScriptBlockingComponent
-            window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
-            
-            return; // Don't proceed with acceptance logic
-          }
-          
-          // If we get here, it's a true "Accept all"
-          console.log('📝 Consent accepted - setting cv_cookie');
-          
-          preferencesModalWasOpened = false;
-          
-          // CRITICAL: Delete rejection cookie if exists (user changing mind)
-          if (hasRejectionCookie()) {
-            console.log('🔄 User changing mind - deleting rejection cookie');
-            deleteCookie('cv_rejection');
-          }
-          
-          // Set acceptance cookie with full acceptance flag
-          const acceptanceData = {
-            categories: { necessary: true },
-            fullAcceptance: true, // Mark this as full acceptance
-            consentTimestamp: new Date().toISOString(),
-            revision: 0
-          };
-          
-          const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
-          document.cookie = `cv_cookie=${encodeURIComponent(JSON.stringify(acceptanceData))}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax${secureFlag}`;
-          
-          // Log the acceptance
-          logConsentToServer({
-            event: 'consent_accepted',
-            button_clicked: 'Accept all',
-            note: 'User accepted - cv_cookie set with fullAcceptance flag'
-          });
-
-          document.body.setAttribute('data-cookie-consent', 'accepted');
-          
-          // Immediately hide any preferences modal
-          hidePreferencesModalIfVisible();
-          
-          // Trigger immediate unblocking
-          setTimeout(() => {
-            triggerImmediateUnblocking();
-          }, 20);
-          
-          // Hide banner
-          if (window.CookieConsent) {
-            setTimeout(() => {
-              window.CookieConsent.hide();
-            }, 50);
-          }
-        },
-
-        // ====================
-        // CRITICAL FIX #5: onReject handler - Handle preferences modal rejection
-        // ====================
-        onReject: ({ cookie }: any) => {
-          console.log('❌ Consent rejected via onReject (from preferences modal)');
-          
-          // 1. Set rejection cookie
-          setRejectionCookie();
-          
-          // 2. Delete acceptance cookie
-          deleteCookie('cv_cookie');
-          
-          // 3. Log the rejection
-          logConsentToServer({
-            event: 'consent_rejected',
-            button_clicked: 'Reject all',
-            note: 'User rejected via preferences modal - cv_rejection set, cv_cookie deleted'
-          });
-
-          document.body.setAttribute('data-cookie-consent', 'rejected');
-          
-          // 4. Hide banner
-          if (window.CookieConsent) {
-            window.CookieConsent.hide();
-          }
-          
-          // 5. Dispatch event for ScriptBlockingComponent
-          window.dispatchEvent(new CustomEvent('cookie-consent-rejected'));
-        },
-
-        onChange: ({ changedCategories, cookie }: any) => {
-          console.log('🔄 onChange fired with:', { changedCategories, cookie });
-          
-          // Ignore preferences modal opening
-          if (changedCategories === 'showPreferences') {
-            preferencesModalWasOpened = true;
-            return;
-          }
-          
-          // CRITICAL FIX #6: Handle empty categories as rejection
-          if (cookie && Array.isArray(cookie.categories) && cookie.categories.length === 0) {
-            console.log('✅ onChange detected empty categories - calling handleRejection');
-            handleRejection();
-          }
-        },
-        
         onShowPreferences: () => {
           console.log('⚙️ Preferences modal shown');
           preferencesModalWasOpened = true;
@@ -634,7 +576,10 @@ export default function CookieConsentClient() {
         
         onHidePreferences: () => {
           console.log('⚙️ Preferences modal hidden');
-        }
+        },
+        
+        // REMOVED: onAccept, onReject, onChange callbacks - handled by cc:onConsent
+        // REMOVED: setupManualRejectButtonHandler - handled by cc:onConsent
       });
       
       // If user already has consent, trigger unblocking immediately
@@ -657,21 +602,41 @@ export default function CookieConsentClient() {
           window.CookieConsent.showPreferences();
         }
       };
+      
+      // Return cleanup for observers
+      return () => {
+        if (preferencesObserver) {
+          preferencesObserver.disconnect();
+        }
+      };
     };
 
     // Initialize library if needed
     if (window.CookieConsent) {
-      initializeWhenReady();
+      const cleanup = initializeWhenReady();
+      
+      // Cleanup function
+      return () => {
+        if (cleanup) cleanup();
+        window.removeEventListener('cc:init', initializeWhenReady);
+        if (preferencesObserver) {
+          preferencesObserver.disconnect();
+        }
+        // Remove event listener
+        window.removeEventListener('cc:onConsent', handleConsentEvent);
+      };
     } else {
       window.addEventListener('cc:init', initializeWhenReady);
+      
+      return () => {
+        window.removeEventListener('cc:init', initializeWhenReady);
+        if (preferencesObserver) {
+          preferencesObserver.disconnect();
+        }
+        // Remove event listener
+        window.removeEventListener('cc:onConsent', handleConsentEvent);
+      };
     }
-
-    return () => {
-      window.removeEventListener('cc:init', initializeWhenReady);
-      if (preferencesObserver) {
-        preferencesObserver.disconnect();
-      }
-    };
   }, [isClient]);
 
   if (!isClient) return null;
@@ -712,11 +677,12 @@ export default function CookieConsentClient() {
                 </p>
                 <div style="display: flex; gap: 15px; justify-content: center;">
                   <button onclick="
-                    document.cookie = 'cv_cookie=' + encodeURIComponent(JSON.stringify({
-                      categories: { necessary: true },
+                    const acceptanceData = {
+                      categories: { necessary: true, analytics: true },
                       fullAcceptance: true,
                       consentTimestamp: new Date().toISOString()
-                    })) + '; path=/; max-age=31536000; SameSite=Lax${secureFlag}';
+                    };
+                    document.cookie = 'cv_cookie=' + encodeURIComponent(JSON.stringify(acceptanceData)) + '; path=/; max-age=31536000; SameSite=Lax${secureFlag}';
                     document.cookie = 'cv_rejection=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                     document.getElementById('gdpr-fallback').style.display='none';
                     location.reload();
@@ -732,11 +698,12 @@ export default function CookieConsentClient() {
                     Accept all
                   </button>
                   <button onclick="
-                    document.cookie = 'cv_rejection=' + encodeURIComponent(JSON.stringify({
+                    const rejectionData = {
                       rejected: true,
                       timestamp: new Date().toISOString(),
                       note: 'Stored with user consent (Art. 6(1)(a) GDPR) to remember preference'
-                    })) + '; path=/; max-age=31536000; SameSite=Lax${secureFlag}';
+                    };
+                    document.cookie = 'cv_rejection=' + encodeURIComponent(JSON.stringify(rejectionData)) + '; path=/; max-age=31536000; SameSite=Lax${secureFlag}';
                     document.cookie = 'cv_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                     document.getElementById('gdpr-fallback').style.display='none';
                     location.reload();

@@ -1,4 +1,4 @@
-// app/legal/privacy/page.tsx - FULLY UPDATED FOR GDPR/CCPA COMPLIANCE
+// app/legal/privacy/page.tsx - UPDATED WITH CORRECT NETLIFY LOG RETENTION & COOKIE ARCHITECTURE
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -29,14 +29,14 @@ export default function PrivacyPolicyPage() {
           </nav>
         </aside>
 
-        {/* Policy Content - FULLY UPDATED */}
+        {/* Policy Content - FULLY UPDATED WITH ALL ORIGINAL TEXT, CORRECTED NETLIFY RETENTION & COOKIE ARCHITECTURE */}
         <div className="flex-1 min-w-0">
           <article className="prose prose-slate dark:prose-invert max-w-none space-y-8"> 
           
             {/* Page Heading */}
             <div className="flex flex-col gap-2 border-b border-border-light dark:border-border-dark pb-6">
               <h1 className="text-text-light dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Privacy Policy</h1>
-              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: December 31, 2025</p>
+              <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Last Updated: January 3, 2026</p>
             </div>
             
             {/* 1. Overview Section */}
@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
             
-            {/* 2. Data Collection Section */}
+            {/* 2. Data Collection Section - UPDATED: Netlify retention from 90 to 30 days */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="data-collection">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">2. General Data Collection (Server Log Files)</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -79,7 +79,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 <li><strong>Provider:</strong> Netlify, Inc., 2325 3rd Street, Suite 296, San Francisco, California 94107, USA.</li>
                 <li><strong>Data Collected:</strong> Full IP addresses, browser type/version, operating system, referrer URL, and time of request.</li>
-                <li><strong>Retention:</strong> IP addresses are retained by Netlify for a maximum of 90 days to detect and prevent fraud and unauthorized access, after which they are rotated or deleted.</li>
+                <li><strong>Retention:</strong> IP addresses are retained by Netlify for a maximum of <strong>30 days</strong> to detect and prevent fraud and unauthorized access, after which they are rotated or deleted. According to Netlify's official privacy policy, access logs are retained for "less than 30 days".</li>
                 <li><strong>Legal Basis:</strong> Art. 6(1)(f) GDPR (Legitimate Interest in website security, fraud prevention, and ensuring service functionality). You have the right to object to this processing under Article 21 GDPR.</li>
                 <li><strong>Data Processing Agreement (DPA):</strong> We maintain a DPA with Netlify that includes Standard Contractual Clauses (SCCs) to ensure GDPR compliance.</li>
                 <li><strong>Netlify Privacy Policy:</strong> <a href="https://www.netlify.com/privacy/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.netlify.com/privacy/</a></li>
@@ -115,25 +115,17 @@ export default function PrivacyPolicyPage() {
               </ul>
             </section>
             
-            {/* 4. Cookies Section - UPDATED WITH PRIOR BLOCKING & CORRECTED LEGAL BASIS */}
+            {/* 4. Cookies Section - UPDATED WITH NEW COOKIE ARCHITECTURE */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="cookies">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">4. Cookies and Prior Blocking</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                We use a single essential cookie to store your consent preference. We implement <strong>prior blocking</strong> to ensure no non-essential cookies are set before you provide consent.
+                We implement a strict, privacy-by-design cookie architecture that uses separate cookies for different purposes. We implement <strong>prior blocking</strong> to ensure no non-essential cookies are set before you provide consent.
               </p>
               
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Prior Blocking Implementation</h3>
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Our Cookie Architecture</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                To comply with GDPR Article 5 and ePrivacy Directive requirements:
+                We use three separate cookies with distinct purposes to manage consent and website functionality:
               </p>
-              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                <li><strong>Technical Blocking:</strong> All cookie-setting scripts are blocked until explicit consent is obtained</li>
-                <li><strong>Equal Consent Options:</strong> "Accept all" and "Reject all" buttons have equal visual prominence</li>
-                <li><strong>No Pre-Consent Cookies:</strong> No analytics, tracking, or preference cookies are set before consent</li>
-                <li><strong>Withdrawal Mechanism:</strong> You can withdraw consent at any time by clearing browser cookies</li>
-              </ul>
-              
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Cookies We Use</h3>
               
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
@@ -165,7 +157,7 @@ export default function PrivacyPolicyPage() {
                         TalentVaults
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Stores consent preferences (acceptance) to demonstrate GDPR compliance and avoid repeated banners
+                        <strong>Stores your acceptance decision.</strong> Set only when you click "Accept all". Contains a <code>fullAcceptance: true</code> flag that our system uses to determine consent for script unblocking. This cookie is essential for remembering your preference and demonstrating GDPR compliance.
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
                         1 year
@@ -184,7 +176,7 @@ export default function PrivacyPolicyPage() {
                         TalentVaults
                       </td>
                       <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                        Stores rejection decision to prevent banner reappearing and demonstrate GDPR compliance
+                        <strong>Stores your rejection decision.</strong> Set only when you click "Reject all". Prevents the banner from reappearing and triggers immediate script blocking. Contains only timestamp and rejection status—no behavioral data. Essential for remembering your preference and demonstrating GDPR compliance.
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
                         1 year
@@ -195,12 +187,52 @@ export default function PrivacyPolicyPage() {
                         </span>
                       </td>
                     </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light dark:text-text-dark">
+                        cc_cookie
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        Cookie Consent Library
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
+                        <strong>Technical/UI cookie for the consent interface.</strong> This is set by the Cookie Consent library to manage the consent banner's display state (e.g., remembers that the banner has been shown). <strong>Important:</strong> This cookie does NOT affect consent decisions or script blocking — our actual consent logic uses cv_cookie and cv_rejection. This is purely for the user interface.
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        1 year
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                          Legitimate Interest (Art. 6(1)(f) GDPR)
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
 
-              {/* NEW SUBSECTION: Technical consent logs and local storage */}
-              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-6">Technical consent logs and local storage</h3>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-4">
+                <h4 className="text-text-light dark:text-white text-lg font-bold mb-2">How Our Consent System Works</h4>
+                <ul className="list-disc list-outside pl-5 space-y-2 text-sm text-text-light dark:text-text-dark">
+                  <li><strong>Accept All:</strong> Sets <code>cv_cookie</code> with <code>fullAcceptance: true</code> and deletes <code>cv_rejection</code>. Scripts are unblocked.</li>
+                  <li><strong>Reject All:</strong> Sets <code>cv_rejection</code> and deletes <code>cv_cookie</code>. Scripts remain blocked.</li>
+                  <li><strong>Script Blocking:</strong> Our inline scripts check for <code>cv_cookie</code> with <code>fullAcceptance: true</code> before unblocking any non-essential scripts.</li>
+                  <li><strong>Banner Suppression:</strong> The <code>cc_cookie</code> only manages UI state — it doesn't influence our consent logic or script blocking decisions.</li>
+                </ul>
+              </div>
+
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Prior Blocking Implementation</h3>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                To comply with GDPR Article 5 and ePrivacy Directive requirements:
+              </p>
+              <ul className="list-disc list-outside pl-5 space-y-2 text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li><strong>Technical Blocking:</strong> All cookie-setting scripts are blocked until explicit consent is obtained</li>
+                <li><strong>Equal Consent Options:</strong> "Accept all" and "Reject all" buttons have equal visual prominence</li>
+                <li><strong>No Pre-Consent Cookies:</strong> No analytics, tracking, or preference cookies are set before consent</li>
+                <li><strong>Event-Driven Consent:</strong> We use the library's <code>cc:onConsent</code> event to detect which button was clicked and set the appropriate cookie (<code>cv_cookie</code> or <code>cv_rejection</code>)</li>
+                <li><strong>Withdrawal Mechanism:</strong> You can withdraw consent at any time by clearing browser cookies</li>
+              </ul>
+              
+              <h3 className="text-text-light dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-4">Technical consent logs and local storage</h3>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 In connection with our cookie banner, we also use minimal technical logs and browser storage (for example, cookies and local storage) to record how the consent interface behaves on your device. These records may include the type of event (for example, that the page loaded or that a cookie was blocked), your current consent status (accepted or rejected), which essential cookies are present, basic device and browser information (such as user‑agent string), and a timestamp of the action.
               </p>
@@ -318,7 +350,7 @@ export default function PrivacyPolicyPage() {
               </ul>
             </section>
             
-            {/* 6. Data Retention Section - UPDATED WITH CORRECTED LEGAL BASIS */}
+            {/* 6. Data Retention Section - UPDATED: Netlify retention from 90 to 30 days */}
             <section className="space-y-4 pt-6 scroll-mt-24" id="retention">
               <h2 className="text-text-light dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">6. Data Retention Schedule</h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
@@ -352,7 +384,7 @@ export default function PrivacyPolicyPage() {
                         Netlify
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
-                        90 days maximum
+                        <strong>30 days maximum</strong> (Netlify's official retention period)
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
                         Legitimate interest (security)
@@ -384,6 +416,20 @@ export default function PrivacyPolicyPage() {
                       </td>
                       <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
                         <strong>Consent</strong> (Article 6(1)(a) GDPR)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        UI cookie (cc_cookie)
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Cookie Library
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        1 year
+                      </td>
+                      <td className="px-4 py-3 text-sm text-text-light dark:text-text-dark">
+                        Legitimate Interest (Art. 6(1)(f) GDPR)
                       </td>
                     </tr>
                     <tr>
