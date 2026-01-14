@@ -8,6 +8,17 @@ import ScriptBlockingComponent from './components/ScriptBlockingComponent';
 export const metadata: Metadata = {
   title: 'TalentVaults - Curated Remote Opportunities for Professionals',
   description: 'High-quality remote digital work for professionals',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +34,6 @@ export default function RootLayout({
         {/* ✅ GDPR Compliance Meta Tags */}
         <meta name="cookie-policy" content="essential-only" />
         <meta name="data-protection" content="gdpr-ccpa-compliant" />
-        <meta name="robots" content="noindex, nofollow" data-cookieconsent="necessary" />
         
         {/* ✅ INLINE BLOCKING SCRIPT - UPDATED WITH cc:onConsent LISTENER */}
         <script
@@ -324,6 +334,7 @@ body[data-cookie-consent="accepted"] .cc-backdrop {
                         .find(row => row.startsWith('cv_cookie='));
                       if (!cvCookie) return false;
                       
+                      // ✅ BUG FIX: Changed 'cookie' to 'cvCookie'
                       const cookieData = JSON.parse(decodeURIComponent(cvCookie.split('=')[1]));
                       
                       // Strict: Only accept if fullAcceptance flag is present
