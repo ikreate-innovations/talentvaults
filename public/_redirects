@@ -1,6 +1,6 @@
-# Force www to non-www AND HTTP to HTTPS in one redirect
+# Redirect all www to non-www HTTPS in ONE step
 http://www.talentvaults.com/*   https://talentvaults.com/:splat   301!
 https://www.talentvaults.com/*  https://talentvaults.com/:splat   301!
 
-# Force HTTP to HTTPS for non-www
+# Redirect non-www HTTP to HTTPS
 http://talentvaults.com/*       https://talentvaults.com/:splat   301!
