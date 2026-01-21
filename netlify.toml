@@ -10,11 +10,26 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# HIGH-PRIORITY REDIRECTS (override domain management)
+[[redirects]]
+  from = "http://www.talentvaults.com/*"
+  to = "https://talentvaults.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.talentvaults.com/*"
+  to = "https://talentvaults.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://talentvaults.com/*"
+  to = "https://talentvaults.com/:splat"
+  status = 301
+  force = true
+
 # Edge Functions for global caching
 [[edge_functions]]
   path = "/*"
   function = "cache-homepage"
-  
-# Optional: Configure Edge Functions region
-# [edge_functions]
-#   region = "us-east-1"  # Default, choose closest to your users
