@@ -1,6 +1,0 @@
-# Redirect all www to non-www HTTPS in ONE step
-http://www.talentvaults.com/*   https://talentvaults.com/:splat   301!
-https://www.talentvaults.com/*  https://talentvaults.com/:splat   301!
-
-# Redirect non-www HTTP to HTTPS
-http://talentvaults.com/*       https://talentvaults.com/:splat   301!
