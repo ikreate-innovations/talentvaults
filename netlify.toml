@@ -10,15 +10,27 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Only redirect non-www HTTP to HTTPS.
-# The 'www' version is handled by checkdomain's Domain Forwarding.
+# Handle all redirects with force=true
+# This ensures they override Netlify's automatic redirect behavior
+[[redirects]]
+  from = "http://www.talentvaults.com/*"
+  to = "https://talentvaults.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.talentvaults.com/*"
+  to = "https://talentvaults.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "http://talentvaults.com/*"
   to = "https://talentvaults.com/:splat"
   status = 301
   force = true
 
-# Edge Functions for global caching (Optional - ensure the function exists)
+# Edge Functions for global caching
 [[edge_functions]]
   path = "/*"
   function = "cache-homepage"
