@@ -6,27 +6,13 @@
   NODE_VERSION = "18"
   NODE_OPTIONS = "--max-old-space-size=4096"
 
-# Next.js plugin for optimized builds
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Handle all redirects with force=true
-# This ensures they override Netlify's automatic redirect behavior
+# Single global HTTP → HTTPS redirect
 [[redirects]]
-  from = "http://www.talentvaults.com/*"
-  to = "https://talentvaults.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.talentvaults.com/*"
-  to = "https://talentvaults.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://talentvaults.com/*"
-  to = "https://talentvaults.com/:splat"
+  from = "http://*"
+  to = "https://:splat"
   status = 301
   force = true
 
