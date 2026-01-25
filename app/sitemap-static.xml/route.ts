@@ -12,12 +12,7 @@ export async function GET(_req: NextRequest) {
     { path: '/', priority: '1.0', changefreq: 'daily' },
     { path: '/vetting-process', priority: '0.9', changefreq: 'weekly' },
     
-    // Listing Pages
-    { path: '/jobs', priority: '0.8', changefreq: 'daily' },
-    { path: '/research', priority: '0.8', changefreq: 'weekly' },
-    { path: '/tools', priority: '0.8', changefreq: 'weekly' },
-    
-    // Legal Pages (NEW - MUST ADD TO YOUR FOOTER NAVIGATION)
+    // LEGAL PAGES ONLY - Listing pages removed to prevent duplicates
     { path: '/legal/imprint', priority: '0.3', changefreq: 'monthly' },
     { path: '/legal/privacy', priority: '0.3', changefreq: 'monthly' },
     { path: '/legal/terms', priority: '0.3', changefreq: 'monthly' },

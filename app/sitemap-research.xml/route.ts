@@ -32,7 +32,7 @@ export async function GET(_req: NextRequest) {
   <url>
     <loc>${BASE_URL}/research/${survey.page_slug}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>`;
       })

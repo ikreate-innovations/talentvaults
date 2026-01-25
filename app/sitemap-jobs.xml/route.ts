@@ -22,7 +22,6 @@ export async function GET(_req: NextRequest) {
 
     const urls = (jobs || [])
       .map((job) => {
-        // Use updated_at if available, otherwise created_at
         const lastmod = job.updated_at 
           ? new Date(job.updated_at).toISOString()
           : (job.created_at 
@@ -33,7 +32,7 @@ export async function GET(_req: NextRequest) {
   <url>
     <loc>${BASE_URL}/jobs/${job.page_slug}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>`;
       })
